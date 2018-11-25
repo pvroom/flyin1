@@ -1,0 +1,24 @@
+page-help {
+
+.btnHelp {
+width:150px;
+height:80px;
+background:#e74c3c;
+color:#fff;
+}
+
+
+.ion-spinner * {
+    width: 48px;
+    height: 48px;
+    stroke: #800000;
+    fill: #800000;
+  }
+
+.footerBG {
+background:#f7f7f7;
+}
+
+
+
+}

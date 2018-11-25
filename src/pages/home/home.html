@@ -67,9 +67,9 @@
 							<div class="row">
 								<div class="col">
 									<div style="float:left" *ngIf=!upcomingAgenda.visAvatar>
-										<ion-icon name="{{upcomingAgenda.eventTypeIcon}}" style="font-size: 2.0em !important;padding-left:5px; padding-bottom: 15px;margin-right: 15px; padding-right: 5px;"></ion-icon>
+										<ion-icon name="{{upcomingAgenda.eventTypeIcon}}" style="font-size: 2.0em !important;padding-left:5px;margin-right: 15px; padding-right: 5px;"></ion-icon>
 									</div>
-									<div text-wrap style="float: left; padding-right:10px; padding-bottom: 20px;" *ngIf=upcomingAgenda.visAvatar>
+									<div text-wrap style="float: left; padding-right:10px; padding-bottom:10px;" *ngIf=upcomingAgenda.visAvatar>
 										<ion-avatar>
 											<img [src]="upcomingAgenda.ContactAvatar" >
 										</ion-avatar>
