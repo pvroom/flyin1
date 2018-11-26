@@ -70,9 +70,6 @@ export class HomePage {
 	public NewMessagesIndicator = false;
 	public UserLoggedIn = false;
 
-	public DisplayFABCall = false;
-	public DisplayFABSMS = false;
-
 	constructor(public navCtrl: NavController, 
 				public alertCtrl: AlertController,
 				private nav: NavController,
@@ -208,8 +205,6 @@ export class HomePage {
 			console.log('Home: Stored AttendeeID: ' + AttendeeID);
 			this.LogInOutIcon = '';
 			this.UserLoggedIn = true;
-			this.DisplayFABCall = true;
-			this.DisplayFABSMS = true;
 		}
 		
 		if (LoginName != '' && LoginName != null && LoginName != 'undefined') {
