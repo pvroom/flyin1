@@ -61,6 +61,7 @@ export class MyApp {
 		private oneSignal: OneSignal,
 		public events: Events,
 		public menuCtrl: MenuController,
+		public platform: Platform,
 		private cd: ChangeDetectorRef,
 		private databaseprovider: Database,
 		//public networkStatus: NetworkProvider,
@@ -87,6 +88,18 @@ export class MyApp {
 		  //{ title: 'More', icon: 'log-in', component: MorePage, naventry: 'More' }
 
 		];
+
+
+
+	//Open side menu at page loading
+
+			this.platform.ready().then(() => {
+				this.menuCtrl.open();
+			});
+		
+		
+		
+
 
 		this.activePage = this.pages[0];
 
@@ -523,6 +536,7 @@ export class MyApp {
     //}
 	
 }
+
 
 
 

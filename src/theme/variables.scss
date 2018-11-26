@@ -29,16 +29,20 @@ $textColor:         #666;
 $colors: (
   //primary:    #488aff, #764880, #7B1FA2, #F15D22, #740e88
   //primary:    #740e88,
-  primary:		 #1d1e22,
-  secondary:  #feda6a,
+
+  primary:#1d1e22,
+  secondary:#feda6a,
   danger:     #3498db,
   light:      #ecf0f1,
   dark:       #222,
-  favorite:   #3d5afe,
+
+  favorite:#670000,
 blue:       #5757A0,
 gray:       #bac7d8,
 green:      #33cd5f,
 yellow:     #ffc900,
+
+
 );
 
 
@@ -90,8 +94,32 @@ $ionicons-font-path: "../assets/fonts";
 @import "roboto";
 @import "noto-sans";
 
-
+// Status Bar
+// --------------------------------------------------
 
 $toolbar-md-title-text-color: white;
 $toolbar-ios-title-text-color: white;
 
+
+// FAB Buttons
+// --------------------------------------------------
+
+$fab-ios-background-color:#feda6a;
+$fab-md-background-color:#feda6a;
+$fab-ios-text-color:#444;
+$fab-md-text-color:#444;
+
+
+
+//Card Headers
+// --------------------------------------------------
+
+$card-ios-header-color:#1d1e22;
+$card-md-header-color:#1d1e22;
+
+
+//Buttons
+// --------------------------------------------------
+
+$button-ios-background-color:#feda6a;
+$button-md-background-color:#feda6a;

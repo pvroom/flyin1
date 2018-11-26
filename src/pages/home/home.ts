@@ -2,7 +2,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgModule } from '@angular/core';
 import { Modal, ModalController, ModalOptions, LoadingController, ToastController, Events } from 'ionic-angular';
 import { NavController, NavParams, AlertController, FabContainer } from 'ionic-angular';
-import 'rxjs/add/operator/map';
+//import 'rxjs/add/operator/map';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Database } from "../../providers/database/database";
