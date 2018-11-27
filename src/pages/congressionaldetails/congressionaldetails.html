@@ -12,14 +12,23 @@
 
 <ion-content>
 
-	<ion-grid>
-		<ion-row>
-			<ion-col col-4>
-				<img [src]="visualImageURL" onerror="this.src='assets/img/personIcon.png'"
-					style="float:left; width:100%" src="assets/img/personIcon.png" alt="Image error">
-			</ion-col>
+	<ion-grid style="margin:0;padding:0">
 	
-			<ion-col col-8 style="margin-top:-15px !important">
+			<ion-row style="background:#670000">
+
+			
+
+					<ion-col>
+				<img class="avatar" [src]="visualImageURL" onerror="this.src='assets/img/personIcon.png'"
+					src="assets/img/personIcon.png" alt="Image error">
+					</ion-col>
+
+				
+			
+				</ion-row>
+			<ion-row style="background:#670000">
+	
+			<ion-col style="margin-top:-15px; text-align: center!important; color:#fff">
 					<h4>{{visualDisplayName}}</h4>
 					<h6>{{visualChamber}}<br>
 					{{visualParty}} - {{visualState}}<br>
@@ -29,6 +38,17 @@
 				</ion-col>
 		</ion-row>
 	</ion-grid>
+
+
+
+
+
+
+	
+
+
+
+
 
 	<ion-card>
 		<ion-card-header class="mutedBlue" >

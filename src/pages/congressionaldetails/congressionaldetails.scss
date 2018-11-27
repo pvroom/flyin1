@@ -11,4 +11,18 @@ page-congressionaldetails {
 		font-size: 2.0em;
 	}
 
+
+	.avatar {
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.rubyRed  {
+		background:linear-gradient(to top left, #200122 0%, #6f0000 100%);
+	  }
+
 }

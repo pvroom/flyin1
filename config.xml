@@ -119,6 +119,8 @@
         <variable name="MAX_STORE" value="2" />
         <variable name="MIN_BACKGROUND_DURATION" value="30" />
     </plugin>
+    <plugin name="cordova-plugin-cocoapod-support" spec="^1.6.0" />
+    <plugin name="onesignal-cordova-plugin" spec="2.4.5" />
     <engine name="android" spec="^7.1.2" />
-    <engine name="ios" spec="4.5.5" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>
