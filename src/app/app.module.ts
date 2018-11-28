@@ -62,9 +62,9 @@ import { SurveyPage } from '../pages/survey/survey';
 // Temporary Support Pages
 //import { FloorplanMappingPage } from '../pages/floorplanmapping/floorplanmapping';
 
-Pro.init('cc0b9cf2', {
-  appVersion: '4.2.3'
-})
+//Pro.init('cc0b9cf2', {
+  //appVersion: '4.2.3'
+//})
 
 @Injectable()
 export class MyErrorHandler implements ErrorHandler {

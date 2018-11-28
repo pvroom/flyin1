@@ -80,7 +80,7 @@ export class MyApp {
 		  { title: 'Issues', icon: 'folder-open', component: IssuesPage, naventry: 'Issues' },
 		  { title: 'Maps', icon: 'map', component: MapPage, naventry: 'Map' },
 		  { title: 'Washington DC', icon: 'compass', component: ConferenceCityPage, naventry: 'ConferenceCity' },
-		  { title: 'Help', icon: 'help', component: HelpPage, naventry: 'Help' },
+		  { title: 'Help', icon: 'help-circle', component: HelpPage, naventry: 'Help' },
 		  { title: 'Notes', icon: 'create', component: NotesPage, naventry: 'Notes' },
 		  { title: 'Survey', icon: 'list-box', component: SurveyPage, naventry: 'Survey' },
 		  //{ title: 'Floorplan Mapping', icon: 'create', component: FloorplanMappingPage, naventry: 'FloorplanMapping' },
