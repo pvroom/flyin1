@@ -294,8 +294,8 @@ export class Database {
 				SQLquery = SQLquery + "INNER JOIN clients c ON cm.clientID = c.clientID ";
 				SQLquery = SQLquery + "INNER JOIN flyins f ON f.clientID = c.clientID ";
 				SQLquery = SQLquery + "WHERE cm.clientmemberID = " + AttendeeID + ") ";
-				SQLquery = SQLquery + "AND strftime('%Y',StartDateTime) = strftime('%Y','now') ";
-				SQLquery = SQLquery + "AND EndDateTime>= DATE('now') ";
+				//SQLquery = SQLquery + "AND strftime('%Y',StartDateTime) = strftime('%Y','now') ";
+				//SQLquery = SQLquery + "AND EndDateTime>= DATE('now') ";
 				SQLquery = SQLquery + "AND m.DeletedYN = 'N' ";
 				SQLquery = SQLquery + "AND c.DeletedYN = 'N' ";
 				SQLquery = SQLquery + "AND cm.DeletedYN = 'N' ";
@@ -360,8 +360,8 @@ export class Database {
 				SQLquery = SQLquery + "INNER JOIN clients c ON cm.clientID = c.clientID ";
 				SQLquery = SQLquery + "INNER JOIN flyins f ON f.clientID = c.clientID ";
 				SQLquery = SQLquery + "WHERE cm.clientmemberID = " + AttendeeID + ") ";
-				SQLquery = SQLquery + "AND strftime('%Y',StartDateTime) = strftime('%Y','now') ";
-				SQLquery = SQLquery + "AND EndDateTime>= DATE('now') ";
+				//SQLquery = SQLquery + "AND strftime('%Y',StartDateTime) = strftime('%Y','now') ";
+				//SQLquery = SQLquery + "AND EndDateTime>= DATE('now') ";
 				SQLquery = SQLquery + "AND mc.clientmemberID = " + AttendeeID + " ";
 				SQLquery = SQLquery + "AND m.DeletedYN = 'N' ";
 				SQLquery = SQLquery + "AND c.DeletedYN = 'N' ";
