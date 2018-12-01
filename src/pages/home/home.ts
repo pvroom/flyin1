@@ -12,6 +12,10 @@ import { Observable } from 'rxjs/Rx';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { SMS } from '@ionic-native/sms';
 import { CallNumber } from '@ionic-native/call-number';
+import { StatusBar } from '@ionic-native/status-bar';
+
+
+
 
 // Preload Pages
 import { MorePage } from '../more/more';
@@ -79,6 +83,7 @@ export class HomePage {
 				private readonly loadingCtrl: LoadingController,
 				private readonly toastCtrl: ToastController, 
 				private storage: Storage,
+				private statusBar: StatusBar,
 				private databaseprovider: Database,
 				private syncprovider: Synchronization,
 				private cd: ChangeDetectorRef,
@@ -1075,3 +1080,9 @@ export class HomePage {
     };
 
 }
+
+// let status bar overlay webview
+this.statusBar.overlaysWebView(true);
+
+// set status bar to white
+this.statusBar.backgroundColorByHexString('#ffffff');
