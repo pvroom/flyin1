@@ -12,7 +12,7 @@ declare var google: any;
 })
 export class MapPage {
 
-	 Leaflet;
+//	 Leaflet mapping variables
 	myMap2: any;
 	myMap3: any;
     myMap4: any;
@@ -31,13 +31,13 @@ export class MapPage {
 		// -----------------
 		this.myMap2 = L.map('mapLevel2', {
 			crs: L.CRS.Simple,
-			minZoom: -8,
+			minZoom: -1,
 			maxZoom: -1,
 			zoomControl: true
 		});
 
 		var bounds = L.latLngBounds([0, 0], [1200, 1700]);    // Normally 1000, 1000; stretched to 2000,1000 for AACD 2017
-		var image = L.imageOverlay('assets/img/assets/img/capitol_campus_map.jpg', bounds, {
+		var image = L.imageOverlay('assets/img/capitol_campus_map.jpg', bounds, {
 			attribution: 'Convergence'
 		}).addTo(this.myMap2);
 
@@ -49,13 +49,13 @@ export class MapPage {
 		// -----------------
 		this.myMap3 = L.map('mapLevel3', {
 			crs: L.CRS.Simple,
-			minZoom: -8,
+			minZoom: -1,
 			maxZoom: -1,
 			zoomControl: true
 		});
 
 		var bounds = L.latLngBounds([0, 0], [1200, 1700]);    // Normally 1000, 1000; stretched to 2000,1000 for AACD 2017
-		var image = L.imageOverlay('assets/img/assets/img/house-inside.jpg', bounds, {
+		var image = L.imageOverlay('assets/img/house-inside.jpg', bounds, {
 			attribution: 'Convergence'
 		}).addTo(this.myMap3);
 
@@ -67,7 +67,7 @@ export class MapPage {
 		// -----------------
 		this.myMap4 = L.map('mapLevel4', {
 			crs: L.CRS.Simple,
-			minZoom: -8,
+			minZoom: -1,
 			maxZoom: -1,
 			zoomControl: true
 		});
@@ -83,4 +83,7 @@ export class MapPage {
 	}
 	
 }
+
+
+
 
