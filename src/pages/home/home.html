@@ -62,9 +62,16 @@
 				<ion-item text-wrap color="favorite" (click)="EventDetails(upcomingAgenda.visEventID)" 
 				*ngFor="let upcomingAgenda of upcomingAgendaItems" 
 				id="upcomingAgenda-list-item19">
-			  <ion-avatar item-start>
+
+
+				
+		<ion-icon *ngIf=!upcomingAgenda.visAvatar name="{{upcomingAgenda.eventTypeIcon}}"></ion-icon>
+			  <ion-avatar *ngIf=upcomingAgenda.visAvatar item-start>
 					<img [src]="upcomingAgenda.ContactAvatar" >
 			  </ion-avatar>
+
+	
+
 			  <p class="myBold" style="color: white">
 					{{upcomingAgenda.EventName}}
 			
@@ -75,12 +82,19 @@
 					<p text-wrap style="color: white">
 					{{upcomingAgenda.EventLocation}}
 				</p>
-		
-
-
-
+	
 			</ion-item>
 		  </ion-list>
+
+
+
+
+
+ 
+
+
+
+
 
 
 
