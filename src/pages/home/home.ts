@@ -1006,7 +1006,7 @@ export class HomePage {
 
 		var CallPrimeNumber = this.localstorage.getLocalValue('CallPrimeNumber');
 		console.log('Dialer: tel:' + CallPrimeNumber);
-		CallPrimeNumber = '2025300500';
+		CallPrimeNumber = '7035177586';
 		console.log('Dialer: tel:' + CallPrimeNumber);
 		
 		window.open(`tel:${CallPrimeNumber}`, '_system');
@@ -1042,7 +1042,7 @@ export class HomePage {
 					LoginName = 'Guest User';
 				}
 				if (TextPrimeNumber == null || TextPrimeNumber == '') {
-					TextPrimeNumber = '2025300500';
+					TextPrimeNumber = '7035177586';
 				}
 				
 				// Concatenate login name with message
