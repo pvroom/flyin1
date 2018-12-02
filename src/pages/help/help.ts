@@ -74,7 +74,7 @@ export class HelpPage {
 		// Alert for successful save
 		let savealert = this.alertCtrl.create({
 			title: 'Help Screen',
-			subTitle: 'Your help note has been sent to Prime.',
+			subTitle: 'Your help note has been sent successfully',
 			buttons: ['Ok']
 		});
 

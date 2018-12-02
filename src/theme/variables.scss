@@ -130,3 +130,42 @@ $button-md-background-color:#78909c;
 //$app-background: linear-gradient(to bottom, color($colors, light) 0%, color($colors, dark) 100%);
 //background-color: linear-gradient(to bottom, color($colors, light) 0%, color($colors, dark) 100%);
 //$toolbar-background: transparent;
+
+
+// breakpoint mixin
+@mixin breakpoint($mq01: 0, $mq2: false, $maxmin: max-width) {
+  @if $mq2 == false {
+      @media ($maxmin: $mq01) {
+          @content;
+      }
+  }
+  @else {
+      @media (min-width: $mq01) and (max-width: $mq2) {
+          @content;
+      }
+  }
+}
+
+// breakpoint variables
+$lg: 1170px;
+$md: 1024px;
+$sm: 640px;
+$xs: 480px;
+
+// responsive font size mixin
+@mixin font-size-map($font-size-map) {
+    @each $breakpoint, $font-size in $font-size-map {
+        @if $breakpoint == null {
+            font-size: $font-size;
+        } @else {
+            @include breakpoint($breakpoint) {
+                font-size: $font-size;
+            }
+        }
+    }
+}
+
+// font sizes
+
+$html-font-size: (null: 16px, $md: 15px, $sm: 14px, $xs: 13px);
+$paragraph-font-size: (null: 18px, $lg: 17px, $md: 16px, $sm: 15px, $xs: 14px);
