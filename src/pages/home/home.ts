@@ -125,6 +125,13 @@ export class HomePage {
 				
 				
 	}
+
+
+
+
+
+
+
  
 	//private connectToDb(): void {
 
@@ -915,6 +922,9 @@ export class HomePage {
 		}
 		
 	}
+
+
+
 	
 	// The following pages require the user to be logged in.
 	// If not, go to login page before continuing on
@@ -1081,8 +1091,3 @@ export class HomePage {
 
 }
 
-// let status bar overlay webview
-this.statusBar.overlaysWebView(true);
-
-// set status bar to white
-this.statusBar.backgroundColorByHexString('#ffffff');
