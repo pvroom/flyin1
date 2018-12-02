@@ -229,8 +229,19 @@ export class HomePage {
 			//this.LoggedInUser = LoginName;
 			this.AttendeeInitials = LoginNameInitials;
 			var FlyinBanner = this.localstorage.getLocalValue("FlyinBanner");
-			/*
+			
 			if (DevPlatform == 'iOS' || DevPlatform == 'Android') {
+				if (FlyinBanner == null) {
+					this.appBanner = 'assets/img/FlyinBanners/default.png';
+				} else {
+					if (FlyinBanner.length==0) {
+						this.appBanner = 'assets/img/FlyinBanners/default.png';
+					} else {
+						this.appBanner = 'assets/img/FlyinBanners/' + FlyinBanner;
+					}
+				}
+				
+				/*
 				// Banner from local assets folder
 				if (FlyinBanner == null) {
 					this.appBanner = 'assets/img/FlyinBanners/PPGBanner.png';
@@ -277,8 +288,10 @@ export class HomePage {
 						});
 					}
 				}
-			} else {
 				*/
+				
+			} else {
+				
 				var randNum = Math.floor((Math.random() * 100) + 1);
 				if (FlyinBanner == null) {
 					this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/default.png?rnd=' + randNum;
@@ -290,7 +303,7 @@ export class HomePage {
 						this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/' + FlyinBanner + '?rnd=' + randNum;
 					}
 				}
-			//}
+			}
 			console.log('Flyin Banner: ' + this.appBanner);
 			this.UserLoggedIn = true;
 
@@ -343,6 +356,8 @@ export class HomePage {
 			flags = "li2|0";
 			
 			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
+				
+				console.log('Agenda List: ' + JSON.stringify(data));
 				
 				this.upcomingAgendaItems = [];	
 				this.upcomingContacts = [];	

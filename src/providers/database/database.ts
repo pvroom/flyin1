@@ -26,7 +26,7 @@ declare var dateFormat: any;
 
 
 // Global URL and conference year referenceused for all AJAX-to-MySQL calls
-var APIURLReference: string = "https://primepolicy.convergence-us.com/flyinPlanner.php?";
+var APIURLReference: string = "https://demoflyin.convergence-us.com/flyinPlanner.php?";
 
 @Injectable()
 export class Database {
