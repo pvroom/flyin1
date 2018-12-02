@@ -803,6 +803,8 @@ export class Database {
 		console.log("flags passed: " + flags);
 		console.log("AttendeeID passed: " + AttendeeID);
 
+		var DevicePlatform = this.localstorage.getLocalValue('DevicePlatform');
+		var SQLquery = "";
 		var flagValues = flags.split("|");
 		var selectedDay = flagValues[0];    
 		var listingType = flagValues[1];
@@ -812,25 +814,119 @@ export class Database {
 		var LastUpdated = flagValues[5];    
 		var SQLquery = "";
 		
-		// Perform query against server-based MySQL database
-		var url = APIURLReference + "action=notesquery&flags=" + flags + "&AttendeeID=" + AttendeeID;
+		if (DevicePlatform == "iOS" || DevicePlatform == "Android") {
+			
+			if (listingType == "li") {	// List of notes
+			
+				// Validate query
+				SQLquery = "SELECT DISTINCT n.cmnID, m.meetingID, m.MeetingTitle, m.StartDateTime, n.Note ";
+				SQLquery = SQLquery + "FROM clients_members_notes n ";
+				SQLquery = SQLquery + "INNER JOIN meetings m ON m.meetingID = n.meetingID ";
+				SQLquery = SQLquery + "WHERE m.StartDateTime LIKE '" + selectedDay + "%' ";
+				SQLquery = SQLquery + "AND n.clientmemberID = '" + AttendeeID + "'";
 
-		return new Promise(resolve => {
-			this.httpCall.get(url).subscribe(
-				response => {resolve(response.json());
-				},
-				err => {
-					if (err.status == "412") {
-						console.log("App and API versions don't match.");
-						var emptyJSONArray = {};
-						resolve(emptyJSONArray);
-					} else {
-						console.log(err.status);
-						console.log("API Error: ", err);
+			}
+
+			if (listingType == "dt") {	// Specific note
+			
+				// Validate query
+				SQLquery = "SELECT cmn.*, m.MeetingTitle ";
+				SQLquery = SQLquery + "FROM meetings m ";
+				SQLquery = SQLquery + "LEFT OUTER JOIN clients_members_notes cmn ON m.meetingID = cmn.meetingID AND cmn.clientmemberID = " + AttendeeID + " ";
+				SQLquery = SQLquery + "WHERE m.meetingID = " + EventID + " ";
+
+			}
+
+			if (listingType == "un") {	// Update specific note
+			
+				// Current sync time in UTC
+				var LastUpdated2 = new Date().toUTCString();
+				var LastUpdated = dateFormat(LastUpdated2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+				
+				// Validate query
+				var CorrectedNote = NoteText.replace(/'/g,"''");
+				SQLquery = "UPDATE clients_members_notes SET Note = '" + CorrectedNote + "' WHERE cmnID = " + NoteID + " ";
+
+			}
+	
+			if (listingType == "sn") {	// Save new note
+		
+				// Validate query
+				//SQLquery = "INSERT INTO clients_members_notes(clientmemberID, meetingID, Note, LastUpdated, UpdateType) ";
+				//SQLquery = SQLquery + "VALUES('" + AttendeeID + "','" + EventID + "','" + NoteText + "','" + LastUpdated + "','Insert')";
+				var cmnID = Math.random() * (9999999-1) + 1;
+				var CorrectedNote = NoteText.replace(/'/g,"''");
+				SQLquery = "INSERT INTO clients_members_notes(cmnID, clientmemberID, meetingID, Note) ";
+				SQLquery = SQLquery + "VALUES(" + cmnID + "," + AttendeeID + "," + EventID + ",'" + CorrectedNote + "')";
+
+			}
+			
+			console.log("Notes Query: " + SQLquery);
+
+			// Perform query against local SQLite database
+			return new Promise(resolve => {
+				
+				this.sqlite.create({name: 'flyinPlanner.db', location: 'default', createFromLocation: 1}).then((db: SQLiteObject) => {
+					
+					this.db = db;
+										
+					this.db.executeSql(SQLquery, <any>{}).then((data) => {
+						console.log('Database: Notes query: ' + JSON.stringify(data));
+						console.log('Database: Notes query rows: ' + data.rows.length);
+						let DatabaseResponse = [];
+						if (listingType == "un" || listingType == "sn") {
+							if (data.rowsAffected == "1") {
+								DatabaseResponse.push({
+									status: "Saved"
+								});
+							} else {
+								DatabaseResponse.push({
+									status: "Failed"
+								});
+							}
+						} else {
+							if(data.rows.length > 0) {
+								for(let i = 0; i < data.rows.length; i++) {
+									DatabaseResponse.push({
+										cmnID: data.rows.item(i).cmnID,
+										meetingID: data.rows.item(i).meetingID,
+										MeetingTitle: data.rows.item(i).MeetingTitle,
+										StartDateTime: data.rows.item(i).StartDateTime,
+										Note: data.rows.item(i).Note
+									});
+								}
+							}
+						}
+						resolve(DatabaseResponse);
+					})
+					.catch(e => console.log('Database: Notes query error: ' + JSON.stringify(e)))
+				});
+				console.log('Database: Notes query complete');
+
+			});
+
+		} else {
+
+			// Perform query against server-based MySQL database
+			var url = APIURLReference + "action=notesquery&flags=" + flags + "&AttendeeID=" + AttendeeID;
+
+			return new Promise(resolve => {
+				this.httpCall.get(url).subscribe(
+					response => {resolve(response.json());
+					},
+					err => {
+						if (err.status == "412") {
+							console.log("App and API versions don't match.");
+							var emptyJSONArray = {};
+							resolve(emptyJSONArray);
+						} else {
+							console.log(err.status);
+							console.log("API Error: ", err);
+						}
 					}
-				}
-			);
-		});
+				);
+			});
+		}	
 			
 	}
 

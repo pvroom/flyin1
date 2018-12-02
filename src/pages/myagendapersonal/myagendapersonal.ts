@@ -29,6 +29,9 @@ export class MyAgendaPersonal {
 	public agendaItempersonalEventDescription: string;
 	public agendaItemid: string;
 	
+	public agendaItempersonalStartDate;
+	public agendaItempersonalEndDate;
+	
 	constructor(public navCtrl: NavController, 
 				public navParams: NavParams,
 				private storage: Storage,
@@ -57,11 +60,18 @@ export class MyAgendaPersonal {
 		//});
 
         this.btnDelete = false;
+		
+		var AgendaDates = this.localstorage.getLocalValue("AgendaDates");
+		var AgendaQueryDates = AgendaDates.split("|");
+		var NumberofDates = AgendaQueryDates.length - 2;
+		this.agendaItempersonalStartDate = AgendaQueryDates[0];
+		this.agendaItempersonalEndDate = AgendaQueryDates[NumberofDates];
+		
 		this.cd.markForCheck();
 
 		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
         var personalID = this.localstorage.getLocalValue('PersonalEventID');
-
+				
         if (personalID != "0") {
 
 			var flags = "pi|0|" + personalID + "|0|0|0|0|0|0|0";

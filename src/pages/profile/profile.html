@@ -32,27 +32,27 @@
 
         <ion-row>
             <ion-col col-12>
-				<ion-item style="margin-left:10px; width:97.5%">{{prAttendeeName}}</ion-item>
+				<ion-item>{{prAttendeeName}}</ion-item>
             </ion-col>
-        </ion-row>
+		</ion-row>
+		
         <ion-row>
-            <ion-col col-12>
-				<ion-grid>
-					<ion-row>
-						<ion-col>
+            <ion-col col-6>
+					
+				
 							<button class="TextReset" ion-button full (click)="ChangePassword()">
 									Change Password
 							</button>
-						</ion-col>
-						<ion-col>
+							</ion-col>
+					
+						<ion-col col-6>
 							<button class="mutedRed TextReset" ion-button full (click)="SignOut()">
 								Sign Out
 							</button>
 						</ion-col>
 					</ion-row>
-				</ion-grid>
-            </ion-col>
-        </ion-row>
+			
+
 
 	</ion-grid>
 	

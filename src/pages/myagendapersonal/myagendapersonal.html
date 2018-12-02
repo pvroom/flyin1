@@ -43,8 +43,8 @@
 						<ion-item>
 							<ion-datetime 
 								displayFormat="MM/DD/YYYY" 
-								min="2019-05-15" 
-								max="2019-05-16" 
+								min="{{agendaItempersonalStartDate}}" 
+								max="{{agendaItempersonalEndDate}}" 
 								name="agendaItempersonalDate" 
 								[(ngModel)]="agendaItempersonalDate" 
 								id="agendaItempersonalDate"></ion-datetime>
