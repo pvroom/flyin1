@@ -14,29 +14,51 @@
 			Contact for Help
 		</ion-card-header>
 		<ion-card-content>
-			<ion-item onclick="window.open('http://www.convergence-us.com/', '_system', 'location=yes'); return false;"></ion-item>
 
-			<img style="width:30%; margin-left:10%" src="assets/img/conlogo.png">
 
-			<ion-item>
-				<button ion-button icon-start class="btnHelp" onclick="pvroom@convergence-us.com">
+<ion-grid>
+
+<ion-row>
+
+	<ion-col>
+			<img style="width:30%; margin:auto" src="assets/img/conlogo.png">
+		</ion-col>
+		</ion-row>
+
+		<ion-row>	
+
+		
+
+
+					<ion-col>
+
+				<button ion-button full icon-start class="btnHelp" (click)="navToEmail('pvroom@convergence-us.com')">
 					<ion-icon  name="mail"></ion-icon>
 					<label>Email</label>
 				</button>
 
+			</ion-col>
 
 
-
-				<button ion-button icon-start class="btnHelp" onclick="window.open('http://www.convergence-us.com/', '_system', 'location=yes'); return false;">
+			<ion-col>
+				<button ion-button full icon-start class="btnHelp" onclick="window.open('http://www.convergence-us.com/', '_system', 'location=yes'); return false;">
 					<ion-icon name="globe"></ion-icon>
 					<label>Website</label>
 				</button>
 
-				<button ion-button icon-start class="btnHelp"  (click)="navToWebsite(ExhibitorWebsite)">
+			</ion-col>
+
+			<ion-col>
+				<button ion-button full icon-start class="btnHelp" (click)="callPhone3('703-635-7801')">
 					<ion-icon name="call"></ion-icon>
 					<label>Call</label>
 				</button>
-			</ion-item>
+		
+
+		</ion-col>
+	</ion-row>
+		</ion-grid>
+
 		</ion-card-content>
 	</ion-card>
 
@@ -96,7 +118,7 @@
 	<ion-grid style="padding-left:20px; margin:0">
 		<ion-row>
 			<ion-col style="padding:0">
-				<p>Deploy Version:24<br>
+				<p>Deploy Version:25<br>
 			     Device Type: {{DeviceType}}<br>
 				 Member ID: {{ClientMemberID}}</p>
 			</ion-col>

@@ -7,6 +7,7 @@ import { Database } from "../../providers/database/database";
 import { Localstorage } from '../../providers/localstorage/localstorage';
 import { Synchronization } from "../../providers/synchronization/synchronization";
 import { Observable } from 'rxjs/Rx';
+import { CallNumber } from '@ionic-native/call-number';
 
 // Pages
 import { HomePage } from '../home/home';
@@ -40,6 +41,7 @@ export class HelpPage {
 				private storage: Storage,
 				private databaseprovider: Database,
 				private cd: ChangeDetectorRef,
+				private callNumber: CallNumber,
 				private localstorage: Localstorage) {
 				
 	}
@@ -167,6 +169,88 @@ export class HelpPage {
 		}
 		
 	}
+
+    navToEmail(EmailAddress) {
+        if (EmailAddress === undefined) {
+            // Do nothing
+        } else {
+            // Initiate mail program
+            //window.open('mailto:' + EmailAddress + '?subject=Demo Fly-in Support','target=_blank');
+			window.open('mailto:' + EmailAddress + '?subject=Demo Fly-in Support', '_system', 'location=yes');
+        }
+
+    };
+
+	callPhone1(phoneNumber) {
+        console.log("Dialer version 1");
+		var DevicePlatform = this.localstorage.getLocalValue('DevicePlatform');
+		
+		if (DevicePlatform!='Browser') {
+			if ((phoneNumber === undefined) || (phoneNumber == '')) {
+				console.log('No phone number defined');
+				// Do nothing
+			} else {
+				// remove all other characters from phone number string
+				phoneNumber = phoneNumber.replace(/-/g, '');
+				phoneNumber = phoneNumber.replace(/./g, '');
+				phoneNumber = phoneNumber.replace('(', '');
+				phoneNumber = phoneNumber.replace(')', '');
+				phoneNumber = phoneNumber.replace(' ', '');
+
+				console.log('Dialer: tel:' + phoneNumber);
+
+				window['plugins'].CallNumber.callNumber(function onSuccess(result){
+					console.log("Dialer Success:" + JSON.stringify(result));
+				},
+				function onError(result) {
+					console.log("Dialer Error:" + JSON.stringify(result));
+				}, phoneNumber, false);
+
+			}
+		}
+    }
+
+	callPhone2(phoneNumber) {
+        console.log("Dialer version 2");
+		console.log('Raw phone number: ' + phoneNumber);
+		
+		var DevicePlatform = this.localstorage.getLocalValue('DevicePlatform');
+		
+		if (DevicePlatform!='Browser') {
+			if ((phoneNumber === undefined) || (phoneNumber == '')) {
+				console.log('No phone number defined');
+				// Do nothing
+			} else {
+
+				console.log('Dialer: tel:' + phoneNumber);
+
+				this.callNumber.callNumber(phoneNumber, false)
+				  .then(res => console.log('Launched dialer!', res))
+				  .catch(err => console.log('Error launching dialer', err));
+  
+			}
+		}
+    }
+
+	callPhone3(phoneNumber) {
+        console.log("Dialer version 3");
+		console.log('Raw phone number: ' + phoneNumber);
+		
+		var DevicePlatform = this.localstorage.getLocalValue('DevicePlatform');
+		
+		if (DevicePlatform!='Browser') {
+			if ((phoneNumber === undefined) || (phoneNumber == '')) {
+				console.log('No phone number defined');
+				// Do nothing
+			} else {
+
+				console.log('Dialer: tel:' + phoneNumber);
+
+				window.open(`tel:${phoneNumber}`, '_system');
+  
+			}
+		}
+    }
 	
 }
 
