@@ -10,12 +10,19 @@
 		</ion-header>
 
 		<ion-content class="blueberry">
-			<div>
 
-			<img src="assets/img/conlogo.png" width="50%" style="margin-left:5em; margin-top:2em">
-		</div>
+	
 			
 			<ion-list no-lines>
+
+					<ion-grid>
+							<ion-row>
+								<ion-col>
+							<img src="assets/img/conlogo.png" style="width:50%; margin-top:0; margin-bottom:0;margin-left:5em">
+						</ion-col>
+						</ion-row>
+					</ion-grid>
+
 
 				<ion-item tappable style="background:transparent; color:#444"
 					menuClose ion-item *ngFor="let p of pages" [class.activeHighlight]="checkActive(p)" (click)="openPage(p)">
