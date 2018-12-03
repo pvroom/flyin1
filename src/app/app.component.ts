@@ -88,7 +88,7 @@ export class MyApp {
 		  //{ title: 'More', icon: 'log-in', component: MorePage, naventry: 'More' }
 
 		];
-
+	
 
 
 	//Open side menu at page loading
@@ -318,6 +318,9 @@ export class MyApp {
   
 		});
 	}
+
+
+
 
 	// OneSignal Push
 	initOneSignalNotification()

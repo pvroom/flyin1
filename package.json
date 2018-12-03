@@ -43,7 +43,6 @@
     "cordova-android-support-gradle-release": "^1.4.7",
     "cordova-browser": "5.0.4",
     "cordova-ios": "^4.5.5",
-    "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-cocoapod-support": "^1.6.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-dbcopy": "^2.0.0",
@@ -131,7 +130,6 @@
       "cordova-plugin-ionic-webview": {},
       "call-number": {},
       "cordova-sms-plugin": {},
-      "cordova-plugin-call-number": {},
       "cordova-plugin-ionic": {
         "APP_ID": "cc0b9cf2",
         "CHANNEL_NAME": "Production",
@@ -141,7 +139,8 @@
         "MIN_BACKGROUND_DURATION": "30"
       },
       "cordova-plugin-cocoapod-support": {},
-      "onesignal-cordova-plugin": {}
+      "onesignal-cordova-plugin": {},
+      "mx.ferreyra.callnumber": {}
     },
     "platforms": [
       "android",
