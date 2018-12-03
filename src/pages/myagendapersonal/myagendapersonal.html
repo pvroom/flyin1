@@ -14,23 +14,23 @@
 		<ion-card-content>
 
 	<ion-list>
-			<ion-card-header style="background:#2c3e50;color:#fff">
+			<ion-card-header style="background:#2c3e50;color:#fff; height:40px; padding-top:7px">
 					Event Title
 				</ion-card-header>
 
 		<ion-item>
-			<ion-input type="text" placeholder="Enter personal event title" (input)='agendaItempersonalEventName = $event.target.value' name="agendaItempersonalEventName" [value]="agendaItempersonalEventName" id="agendaItempersonalEventName"></ion-input>
+			<ion-input type="text" placeholder="Enter personal event title" style="height:60px" (input)='agendaItempersonalEventName = $event.target.value' name="agendaItempersonalEventName" [value]="agendaItempersonalEventName" id="agendaItempersonalEventName"></ion-input>
 		</ion-item>
 
-		<ion-card-header style="background:#2c3e50;color:#fff">
+		<ion-card-header style="background:#2c3e50;color:#fff; height:40px; padding-top:7px">
 				Location
 			</ion-card-header>
             
 		<ion-item>
-			<ion-input type="text" placeholder="Enter a location" (input)='agendaItempersonalEventLocation = $event.target.value' name="agendaItempersonalEventLocation" [value]="agendaItempersonalEventLocation" id="agendaItempersonalEventLocation"></ion-input>
+			<ion-input type="text" placeholder="Enter a location" style="height:60px" (input)='agendaItempersonalEventLocation = $event.target.value' name="agendaItempersonalEventLocation" [value]="agendaItempersonalEventLocation" id="agendaItempersonalEventLocation"></ion-input>
 		</ion-item>
 
-		<ion-card-header style="background:#2c3e50;color:#fff">
+		<ion-card-header style="background:#2c3e50;color:#fff; height:40px; padding-top:7px">
 				Date and Time of the Event
 			</ion-card-header>
 
@@ -67,7 +67,7 @@
 					<ion-col col-4>
 						<p>End Time</p>
 						<ion-item>
-							<ion-datetime 
+							<ion-datetime style="text-align:left"
 								displayFormat="HH:mm" 
 								min="07:00" 
 								max="23:30" 
@@ -79,7 +79,7 @@
 				</ion-row>
 			</ion-grid>
 
-			<ion-card-header style="background:#2c3e50;color:#fff">
+			<ion-card-header style="background:#2c3e50;color:#fff; height:40px; padding-top:7px">
 				Description
 			</ion-card-header>
 
@@ -97,13 +97,16 @@
 
 			<ion-grid>
 				<ion-row>
-					<ion-col col-6>
-						<button ion-button full style="background:#78909c; color:#fff" (click)="SaveAgendaItem()">
+					<ion-col>
+						<button ion-button block style="background:#78909c; color:#fff" (click)="SaveAgendaItem()">
 							Save
 						</button>
 					</ion-col>
-					<ion-col col-6>
-						<button ion-button full style="background:#78909c; color:#fff" *ngIf="btnDelete" (click)="DeleteAgendaItem(agendaItemid)">
+				</ion-row>
+
+					<ion-row>
+					<ion-col>
+						<button ion-button block style="background:#78909c; color:#fff" *ngIf="btnDelete" (click)="DeleteAgendaItem(agendaItemid)">
 							Delete
 						</button>
 					</ion-col>

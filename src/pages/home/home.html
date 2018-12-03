@@ -60,7 +60,7 @@
 			*ngFor="let upcomingAgenda of upcomingAgendaItems" 
 			id="upcomingAgenda-list-item19">
 
-			<ion-icon *ngIf=!upcomingAgenda.visAvatar name="{{upcomingAgenda.eventTypeIcon}}" item-start style="margin-left:10px; margin-right:-3px"></ion-icon>
+			<ion-icon *ngIf=!upcomingAgenda.visAvatar name="{{upcomingAgenda.eventTypeIcon}}" item-start></ion-icon>
 			<ion-avatar *ngIf=upcomingAgenda.visAvatar item-start style="font-size:28px">
 				<img [src]="upcomingAgenda.ContactAvatar" >
 			</ion-avatar>
