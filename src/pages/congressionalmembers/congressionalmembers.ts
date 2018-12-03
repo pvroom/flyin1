@@ -47,12 +47,12 @@ export class CongressionalMembersPage {
 
 		this.CongressionalChamber = this.localstorage.getLocalValue('CongressionalChamber');
 		// Load initial data set here
-		let loading = this.loadingCtrl.create({
-			spinner: 'crescent',
-			content: 'Please wait...'
-		});
+		//let loading = this.loadingCtrl.create({
+		//	spinner: 'crescent',
+		//	content: 'Please wait...'
+		//});
 
-		loading.present();
+		//loading.present();
 
 		// Blank and show loading info
 		this.CongressionalListing = [];
@@ -180,7 +180,7 @@ export class CongressionalMembersPage {
 
 			this.cd.markForCheck();
 
-			loading.dismiss();
+			//loading.dismiss();
 			
 		}).catch(function () {
 			console.log("Promise Rejected");
@@ -196,12 +196,12 @@ export class CongressionalMembersPage {
 		}
 		
 		// Load initial data set here
-		let loading = this.loadingCtrl.create({
-			spinner: 'crescent',
-			content: 'Please wait...'
-		});
+		//let loading = this.loadingCtrl.create({
+		//	spinner: 'crescent',
+		//	content: 'Please wait...'
+		//});
 
-		loading.present();
+		//loading.present();
 
 		// Blank and show loading info
 		this.CongressionalListing = [];
@@ -329,7 +329,7 @@ export class CongressionalMembersPage {
 
 			this.cd.markForCheck();
 
-			loading.dismiss();
+			//loading.dismiss();
 			
 		}).catch(function () {
 			console.log("Promise Rejected");
@@ -345,12 +345,12 @@ export class CongressionalMembersPage {
 		}
 
 		// Load initial data set here
-		let loading = this.loadingCtrl.create({
-			spinner: 'crescent',
-			content: 'Please wait...'
-		});
+		//let loading = this.loadingCtrl.create({
+		//	spinner: 'crescent',
+		//	content: 'Please wait...'
+		//});
 
-		loading.present();
+		//loading.present();
 
 		// Blank and show loading info
 		this.CongressionalListing = [];
@@ -478,7 +478,7 @@ export class CongressionalMembersPage {
 
 			this.cd.markForCheck();
 
-			loading.dismiss();
+			//loading.dismiss();
 			
 		}).catch(function () {
 			console.log("Promise Rejected");

@@ -34,6 +34,7 @@ export class HelpPage {
 	public flID: string;
 	public FlyinBanner: string;
 	public LSync: string;
+	public PushID: string;
 
 	constructor(public navCtrl: NavController, 
 				public loadingCtrl: LoadingController,
@@ -54,12 +55,14 @@ export class HelpPage {
 		var FlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
 		var BannerID = this.localstorage.getLocalValue("FlyinBanner");
 		var LastSync = this.localstorage.getLocalValue('LastSync');		
+		var PlayerID = this.localstorage.getLocalValue("PlayerID");
 
 		this.DeviceType = DevPlatform;
 		this.ClientMemberID = AttendeeID;
 		this.flID = FlyinID;
 		this.FlyinBanner = BannerID;
 		this.LSync = LastSync;
+		this.PushID = PlayerID;
 		
 		this.cd.markForCheck();
 		
