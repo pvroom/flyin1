@@ -321,7 +321,7 @@ export class HomePage {
 			this.localstorage.setLocalValue("AgendaDays", '');
 			this.localstorage.setLocalValue("AgendaDates", '');
 			this.localstorage.setLocalValue("AgendaDayButtonLabels", '');
-			this.appBanner = 'assets/img/default.png';
+			this.appBanner = 'assets/img/FlyinBanners/default.png';
 		}
 
 		// Temporary use variables
