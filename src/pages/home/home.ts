@@ -294,10 +294,10 @@ export class HomePage {
 				
 				var randNum = Math.floor((Math.random() * 100) + 1);
 				if (FlyinBanner == null) {
-					this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/conlogo.png?rnd=' + randNum;
+					this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/default.png?rnd=' + randNum;
 				} else {
 					if (FlyinBanner.length==0) {
-						this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/conlogo.png?rnd=' + randNum;
+						this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/default.png?rnd=' + randNum;
 					} else {
 						// Banner from server images folder
 						this.appBanner = 'https://demoflyin.convergence-us.com/AdminGateway/images/FlyinBanners/' + FlyinBanner + '?rnd=' + randNum;
