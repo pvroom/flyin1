@@ -91,11 +91,7 @@ export class MyApp {
 	
 
 
-	//Open side menu at page loading
 
-			this.platform.ready().then(() => {
-				this.menuCtrl.open();
-			});
 		
 		
 		
@@ -259,12 +255,20 @@ export class MyApp {
 		this.pltfrm.ready().then(() => {
 			// Okay, so the platform is ready and our plugins are available.
 			// Here you can do any higher level native things you might need.
-			this.statusBar.styleDefault();
+			this.statusBar.overlaysWebView(false);
+			this.statusBar.backgroundColorByHexString('#1d1e22');
+			this.statusBar.styleLightContent();
 			
 			console.log('AppComponents: initializeApp accessed');
 
 			// Set default value
 			this.DevicePlatform = "Browser";
+
+	//Open side menu at page loading
+		this.menuCtrl.open();
+
+
+
 
 			// Determine if we are running on a device
 			if (this.pltfrm.is('android')) {
