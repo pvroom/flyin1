@@ -34,47 +34,53 @@
 				Date and Time of the Event
 			</ion-card-header>
 
-		<div>
+
+
+
+
+
+
 
 			<ion-grid>
 				<ion-row>
-					<ion-col col-4>     
-						<p>Date</p>
-						<ion-item>
-							<ion-datetime 
-								displayFormat="MM/DD/YYYY" 
+					<ion-col>     
+						<p style="text-align:center">Date</p>
+						
+					
+							<ion-datetime style="text-align:center"
+								displayFormat="MM/DD/YYYY"
 								min="{{agendaItempersonalStartDate}}" 
 								max="{{agendaItempersonalEndDate}}" 
 								name="agendaItempersonalDate" 
 								[(ngModel)]="agendaItempersonalDate" 
 								id="agendaItempersonalDate"></ion-datetime>
-						</ion-item>
+					
 					</ion-col>
 
-					<ion-col col-4>                 
-						<p>Start Time</p>
-						<ion-item>
-							<ion-datetime 
-								displayFormat="HH:mm" 
+					<ion-col>                 
+						<p style="text-align:center">Start Time</p>
+					
+							<ion-datetime style="text-align:center"
+								displayFormat="HH:mm"
 								min="07:00" 
 								max="23:30" 
 								name="agendaItempersonalStartTime" 
 								[(ngModel)]="agendaItempersonalStartTime" 
 								id="agendaItempersonalStartTime"></ion-datetime>
-						</ion-item>
+					
 					</ion-col>
 
-					<ion-col col-4>
-						<p>End Time</p>
-						<ion-item>
-							<ion-datetime style="text-align:left"
+					<ion-col>
+						<p style="text-align:center">End Time</p>
+						
+							<ion-datetime style="text-align:center"
 								displayFormat="HH:mm" 
 								min="07:00" 
 								max="23:30" 
 								name="agendaItempersonalEndTime" 
 								[(ngModel)]="agendaItempersonalEndTime" 
 								id="agendaItempersonalEndTime"></ion-datetime>
-						</ion-item>
+					
 					</ion-col>
 				</ion-row>
 			</ion-grid>
@@ -113,7 +119,10 @@
 				</ion-row>
 			</ion-grid>
 
-		</div>
+	
+
+
+
 		
 	</ion-list>
 </ion-card-content>
