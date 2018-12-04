@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.convergenceus.flyin.demo" version="4.2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Demo Fly-in</name>
+    <name>Advocacy Edge</name>
     <description>A demo app for Fly-in agenda management</description>
     <author email="pvroom@convergence-us.com" href="http://convergence-us.com/">Convergence</author>
     <content src="index.html" />
@@ -20,15 +20,14 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="FadeSplashScreen" value="false" />
-    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="1000" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="ShowSplashScreenSpinner" value="true" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="SplashScreenSpinnerColor" value="#ffffff" />
     <preference name="loadUrlTimeoutValue" value="60000" />
-    <preference name="DisableDeploy" value="false" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -122,7 +121,8 @@
         <variable name="UPDATE_API" value="https://api.ionicjs.com" />
         <variable name="MAX_STORE" value="2" />
         <variable name="MIN_BACKGROUND_DURATION" value="30" />
+        <variable name="WARN_DEBUG" value="true" />
     </plugin>
-    <engine name="android" spec="^7.1.4" />
     <engine name="ios" spec="^4.5.5" />
+    <engine name="android" spec="7.1.4" />
 </widget>

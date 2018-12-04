@@ -475,7 +475,7 @@ export class HomePage {
 							this.upcomingAgendaItems.push({
 								EventName: visEventName,
 								visEventTimeframe: DisplayDateTime,
-								visEventID: "'" + data[i].EventID + "|" + data[i].mtgID + "'",
+								visEventID: "'" + data[i].EventID + "|" + data[i].itID + "'",
 								EventLocation: visEventLocation,
 								eventTypeIcon: eventIcon,
 								visAvatar: visAvatar,
@@ -847,7 +847,7 @@ export class HomePage {
 							this.upcomingAgendaItems.push({
 								EventName: visEventName,
 								visEventTimeframe: DisplayDateTime,
-								visEventID: "'" + data[i].EventID + "|" + data[i].mtgID + "'",
+								visEventID: "'" + data[i].EventID + "|" + data[i].itID + "'",
 								EventLocation: visEventLocation,
 								eventTypeIcon: eventIcon,
 								visAvatar: visAvatar,

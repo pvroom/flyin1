@@ -1179,7 +1179,7 @@ export class MyAgenda {
 
 						this[idEventStatus] = visSessionStatus;
 						this[idEventStatusStyle] = visStatusStyle;
-						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].mtgID + "'";
+						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].itID + "'";
 						this[idEventShow] = true;
 						
 						// Calculate course duration and use an appropriate card
@@ -1269,7 +1269,7 @@ export class MyAgenda {
 
 						this[idEventStatus] = visSessionStatus;
 						this[idEventStatusStyle] = visStatusStyle;
-						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].mtgID + "'";
+						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].itID + "'";
 
 						// Calculate course duration and use an appropriate card
 						var CalcstartDate = +new Date(0, 0, 0, Starthour, Startminutes);
@@ -1357,7 +1357,7 @@ export class MyAgenda {
 						}
 						this[idEventStatus] = visSessionStatus;
 						this[idEventStatusStyle] = visStatusStyle;
-						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].mtgID + "'";
+						this[idEventID] = "'" + data[i1].EventID + '|' + data[i1].itID + "'";
 						this[idEventShow] = true;
 						
 

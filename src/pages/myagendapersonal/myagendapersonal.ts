@@ -88,9 +88,11 @@ export class MyAgendaPersonal {
                     this.agendaItempersonalDate = data[0].EventDate;
                     this.agendaItempersonalStartTime = data[0].EventStartTime;
                     this.agendaItempersonalEndTime = data[0].EventEndTime;
-					if (this.agendaItempersonalEventDescription=='undefined' || this.agendaItempersonalEventDescription===undefined || this.agendaItempersonalEventDescription === null ) {
+					if (data[0].EventDescription=='undefined' || data[0].EventDescription===undefined || data[0].EventDescription === null ) {
+						console.log('Personal Agenda, Set Description to blank');
 						this.agendaItempersonalEventDescription = "";
 					} else {
+						console.log('Personal Agenda, Set Description to: ' + data[0].EventDescription);
 						this.agendaItempersonalEventDescription = data[0].EventDescription;
 					}
                     this.agendaItemid = data[0].mtgID;
@@ -98,6 +100,7 @@ export class MyAgendaPersonal {
                     this.btnDelete = true;
 
 					this.cd.detectChanges();
+					this.cd.markForCheck();
 			
                 }
 
@@ -157,11 +160,11 @@ export class MyAgendaPersonal {
         var ValidationPass = true;
 
 		// Diagnostics
-		console.log('agendaItempersonalEventName :' + this.agendaItempersonalEventName);
-		console.log('agendaItempersonalEventLocation :' + this.agendaItempersonalEventLocation);
-		console.log('agendaItempersonalDate :' + this.agendaItempersonalDate);
-		console.log('agendaItempersonalStartTime :' + this.agendaItempersonalStartTime);
-		console.log('agendaItempersonalEndTime :' + this.agendaItempersonalEndTime);
+		console.log('Personal Agenda, agendaItempersonalEventName: ' + this.agendaItempersonalEventName);
+		console.log('Personal Agenda, agendaItempersonalEventLocation: ' + this.agendaItempersonalEventLocation);
+		console.log('Personal Agenda, agendaItempersonalDate: ' + this.agendaItempersonalDate);
+		console.log('Personal Agenda, agendaItempersonalStartTime: ' + this.agendaItempersonalStartTime);
+		console.log('Personal Agenda, agendaItempersonalEndTime: ' + this.agendaItempersonalEndTime);
 		
         if (this.agendaItempersonalEventName == null || this.agendaItempersonalEventName == "") {
             ValidationPass = false;
@@ -185,31 +188,37 @@ export class MyAgendaPersonal {
 
         } else {
 
+			
             // Date formatting
-            ControlDate = new Date(this.agendaItempersonalDate + " " + this.agendaItempersonalStartTime);
-            StartTime = dateFormat(ControlDate, "HH:MM:ss");
+            //ControlDate = new Date(this.agendaItempersonalDate + " " + this.agendaItempersonalStartTime);
+            //StartTime = dateFormat(ControlDate, "HH:MM:ss");
+            StartTime = this.agendaItempersonalStartTime + ":00";
 
-            ControlDate = new Date(this.agendaItempersonalDate + " " + this.agendaItempersonalEndTime);
-            EndTime = dateFormat(ControlDate, "HH:MM:ss");
+            //ControlDate = new Date(this.agendaItempersonalDate + " " + this.agendaItempersonalEndTime);
+            //EndTime = dateFormat(ControlDate, "HH:MM:ss");
+            EndTime = this.agendaItempersonalEndTime + ":00";
 
-            // Get last update performed by this app
-            var LastUpdateDate = this.localstorage.getLocalValue("LastUpdateDate");
-            if (LastUpdateDate == null) {
-                // If never, then set variable and localStorage item to NA
-				LastUpdateDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-                this.localstorage.setLocalValue("LastUpdateDate", LastUpdateDate);
-            }
+			console.log('Personal Agenda, 24hr Start Time: ' + StartTime);
+			console.log('Personal Agenda, 24hr End Time: ' + EndTime);
+
+			// Previously successful sync time
+			var LastUpdateDate3 = this.localstorage.getLocalValue('LastUpdateDate');
+			if (LastUpdateDate3 == '' || LastUpdateDate3 === null) {
+				LastUpdateDate3 = '2018-09-01T00:00:01Z';
+			}
+			var LastUpdateDate2 = new Date(LastUpdateDate3).toUTCString();
+			var LastUpdateDate = dateFormat(LastUpdateDate2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
 
 			var flags = "ps|0|" + personalID + "|" + StartTime + "|" + EndTime + "|" + this.agendaItempersonalEventLocation + "|" + this.agendaItempersonalEventName + "|" + this.agendaItempersonalDate + "|0|" + LastUpdateDate + "|" + this.agendaItempersonalEventDescription;
 			console.log('Save personal flags: ' + flags);
 			
-			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
+			this.databaseprovider.getAgendaData(flags, AttendeeID).then(dataS => {
 				
-				console.log("getAgendaData: " + JSON.stringify(data));
+				console.log("Personal Agenda Save, getAgendaData: " + JSON.stringify(dataS));
 
-				if (data['length']>0) {
+				if (dataS['length']>0) {
 					
-					if (data[0].PEStatus == "Success") {
+					if (dataS[0].PEStatus == "Success") {
 						// Saved
 						this.events.publish('user:Status', 'Personal Agenda Save/Update');
 						saving.dismiss();
@@ -217,7 +226,7 @@ export class MyAgendaPersonal {
 						this.navCtrl.pop();
 					} else {
 						// Not saved
-						console.log("Query: " + data[0].PEQuery);
+						console.log("Query: " + dataS[0].PEQuery);
 						saving.dismiss();
 						failalert.present();
 					}

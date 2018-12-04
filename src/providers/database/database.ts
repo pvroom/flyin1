@@ -278,10 +278,20 @@ export class Database {
 			var visStartTime;
 			var visEndTime;
 
-			if (listingType == "li") {	// List of speakers
+			if (listingType == "li") {	// List of events
 			
-				// Split search terms by space to create WHERE clause
-				SQLquery = "SELECT DISTINCT m.*, con.FirstName, con.LastName, con.Nickname, con.Party, con.State, con.Address, con.imageFilename ";
+				SQLquery = "SELECT DISTINCT itID AS meetingID, EventID, mtgID, Date_Start || ' ' || Time_Start AS StartDateTime, Date_End || ' ' || Time_End AS EndDateTime, Location, Description AS EventDescription, ";
+				SQLquery = SQLquery + "SUBJECT AS MeetingTitle, ";
+				SQLquery = SQLquery + "'' AS FirstName, '' AS LastName, '' AS Nickname, '' AS Party, '' AS State, '' AS Address, '' AS imageFilename ";
+				SQLquery = SQLquery + "FROM itinerary WHERE Date_Start = '" + selectedDay + "' AND AttendeeID = '" + AttendeeID + "' ";
+				SQLquery = SQLquery + "AND EventID = '0' ";
+				SQLquery = SQLquery + "AND UpdateType != 'Delete' "; 
+
+				SQLquery = SQLquery + "UNION ";
+
+				SQLquery = SQLquery + "SELECT DISTINCT m.meetingID, m.meetingID AS EventID, '0' AS mtgID, StartDateTime, EndDateTime, Location, EventDescription, MeetingTitle, ";
+				SQLquery = SQLquery + "con.FirstName, con.LastName, con.Nickname, con.Party, con.State, con.Address, con.imageFilename ";
+				//SQLquery = "SELECT DISTINCT m.*, con.FirstName, con.LastName, con.Nickname, con.Party, con.State, con.Address, con.imageFilename ";
 				SQLquery = SQLquery + "FROM meetings m ";
 				SQLquery = SQLquery + "INNER JOIN meetings_clients mc ON mc.meetingID = m.meetingID ";
 				SQLquery = SQLquery + "LEFT OUTER JOIN congressional_members con ON m.congressionalMemberID = con.congressionalMemberID ";
@@ -308,7 +318,19 @@ export class Database {
 
 			if (listingType == "li2") {
 
-				SQLquery = "SELECT DISTINCT m.meetingID, m.flID, m.StartDateTime, m.EndDateTime, m.MeetingType, m.MeetingTitle, m.EventDescription, m.Location, m.ActiveYN, m.CancelledYN, ";
+				SQLquery = "SELECT DISTINCT itID AS meetingID, '0' AS flID, EventID, mtgID, Date_Start || ' ' || Time_Start AS StartDateTime, Date_End || ' ' || Time_End AS EndDateTime, ";
+				SQLquery = SQLquery + "'Other' AS MeetingType, SUBJECT AS MeetingTitle, Description AS EventDescription, Location, ";
+				SQLquery = SQLquery + "'Y' AS ActiveYN, 'N' AS CancelledYN, ";
+				SQLquery = SQLquery + "'0' AS congressionalMemberID, '' AS FirstName, '' AS LastName, '' AS Nickname, '' AS Party, '' AS State, '' AS Address, '' AS imageFilename ";
+				SQLquery = SQLquery + "FROM itinerary WHERE AttendeeID = '" + AttendeeID + "' ";
+				SQLquery = SQLquery + "AND EventID = '0' ";
+				SQLquery = SQLquery + "AND UpdateType != 'Delete' ";
+
+				SQLquery = SQLquery + "UNION ";
+
+				SQLquery = SQLquery + "SELECT DISTINCT m.meetingID, m.flID, m.meetingID AS EventID, '0' AS mtgID, m.StartDateTime, ";
+				SQLquery = SQLquery + "m.EndDateTime, m.MeetingType, m.MeetingTitle, m.EventDescription, m.Location, m.ActiveYN, m.CancelledYN, ";
+				//SQLquery = "SELECT DISTINCT m.meetingID, m.flID, m.StartDateTime, m.EndDateTime, m.MeetingType, m.MeetingTitle, m.EventDescription, m.Location, m.ActiveYN, m.CancelledYN, ";
 				SQLquery = SQLquery + "(SELECT con1.congressionalMemberID ";
 				SQLquery = SQLquery + "FROM congressional_members con1 ";
 				SQLquery = SQLquery + "INNER JOIN meetings_congressionals mc1 ON mc1.congressionalMemberID = con1.congressionalMemberID ";
@@ -367,7 +389,7 @@ export class Database {
 				SQLquery = SQLquery + "AND c.DeletedYN = 'N' ";
 				SQLquery = SQLquery + "AND cm.DeletedYN = 'N' ";
 				SQLquery = SQLquery + "AND f.DeletedYN = 'N' ";
-				SQLquery = SQLquery + "ORDER BY m.StartDateTime ";
+				SQLquery = SQLquery + "ORDER BY StartDateTime ";
 
 			}
 			
@@ -534,6 +556,31 @@ export class Database {
 				SQLquery = SQLquery + "ORDER BY LastName, FirstName  ";
 			}
 
+			// Personal sessions
+			if (listingType == "pi") {	// Retrieve personal schedule item
+			
+				SQLquery = "SELECT DISTINCT itID, mtgID, Time_Start AS EventStartTime, Time_End AS EventEndTime, Location AS EventLocation, Description AS EventDescription, SUBJECT AS EventName, Date_Start AS EventDate ";
+				SQLquery = SQLquery + "FROM itinerary ";
+				SQLquery = SQLquery + "WHERE AttendeeID = '" + AttendeeID + "' ";
+				SQLquery = SQLquery + "AND EventID = '0' ";
+				SQLquery = SQLquery + "AND mtgID = " + EventID + " ";
+				SQLquery = SQLquery + "AND UpdateType != 'Delete' ";
+				SQLquery = SQLquery + "ORDER BY EventStartTime";
+
+			}
+
+			if (listingType == "pd") {	// Delete Personal agenda item
+			
+				SQLquery = "DELETE FROM itinerary WHERE AttendeeID = '" + AttendeeID + "' AND mtgID = " + EventID;
+
+			}
+
+			if (listingType == "ps") {	// Save (new/update) Personal agenda item
+
+				SQLquery = "SELECT * FROM itinerary WHERE AttendeeID = '" + AttendeeID + "' AND mtgID = " + EventID;
+
+			}
+			
 			console.log("getAgendaData Query: " + SQLquery);
 
 			// Perform query against local SQLite database
@@ -551,6 +598,7 @@ export class Database {
 						console.log('Database: getAgendaData query: ' + JSON.stringify(data));
 						console.log('Database: getAgendaData query rows: ' + data.rows.length);
 						let DatabaseResponse = [];
+						var SQLquery2 = "";
 						if(data.rows.length > 0) {
 							for(let i = 0; i < data.rows.length; i++) {
 								if (listingType == "li") {
@@ -575,7 +623,7 @@ export class Database {
 									
 									DatabaseResponse.push({
 										itID: data.rows.item(i).meetingID,
-										EventID: data.rows.item(i).meetingID,
+										EventID: data.rows.item(i).EventID,
 										mtgID: 0,
 										EventStartTime: visStartTime,
 										EventEndTime: visEndTime,
@@ -591,6 +639,7 @@ export class Database {
 										Address: data.rows.item(i).Address,
 										imageFilename: data.rows.item(i).imageFilename
 									});
+									resolve(DatabaseResponse);
 									
 								}
 								if (listingType == "li2") {
@@ -615,7 +664,7 @@ export class Database {
 									
 									DatabaseResponse.push({
 										itID: data.rows.item(i).meetingID,
-										EventID: data.rows.item(i).meetingID,
+										EventID: data.rows.item(i).EventID,
 										mtgID: 0,
 										EventStartTime: visStartTime,
 										EventEndTime: visEndTime,
@@ -632,6 +681,7 @@ export class Database {
 										Address: data.rows.item(i).Address,
 										imageFilename: data.rows.item(i).imageFilename
 									});
+									resolve(DatabaseResponse);
 									
 								}
 								if (listingType == "sr") {
@@ -650,6 +700,7 @@ export class Database {
 										Address: data.rows.item(i).Address,
 										SQLquery: SQLquery
 									});
+									resolve(DatabaseResponse);
 									
 								}
 								if (listingType == "dt") {
@@ -698,6 +749,7 @@ export class Database {
 										RoomNumber: data.rows.item(i).RoomNumber,
 										Chamber: data.rows.item(i).Chamber
 									});
+									resolve(DatabaseResponse);
 									
 								}
 								if (listingType == "ma") {
@@ -709,6 +761,7 @@ export class Database {
 										City: data.rows.item(i).City,
 										State: data.rows.item(i).State
 									});
+									resolve(DatabaseResponse);
 									
 								}
 								if (listingType == "cs") {
@@ -730,11 +783,152 @@ export class Database {
 										RepresentingType: data.rows.item(i).RepresentingType,
 										RepresentingLastName: data.rows.item(i).RepresentingLastName
 									});
+									resolve(DatabaseResponse);
 									
 								}
+								if (listingType == "pi") {
+									DatabaseResponse.push({
+										itID: data.rows.item(i).itID,
+										EventID: data.rows.item(i).EventID,
+										mtgID: data.rows.item(i).mtgID,
+										EventStartTime: data.rows.item(i).EventStartTime,
+										EventEndTime: data.rows.item(i).EventEndTime,
+										EventLocation: data.rows.item(i).EventLocation,
+										EventDescription: data.rows.item(i).EventDescription,
+										EventName: data.rows.item(i).EventName,
+										EventDate: data.rows.item(i).EventDate,
+										Attendees: data.rows.item(i).Attendees,
+										Waitlist: data.rows.item(i).Waitlist,
+										RoomCapacity: data.rows.item(i).RoomCapacity
+									});
+									resolve(DatabaseResponse);
+								}
+								if (listingType == "ps") {
+									if(data.rows.length > 0) {
+										SQLquery2 = "UPDATE itinerary ";
+										SQLquery2 = SQLquery2 + "SET UpdateType = 'Update', ";
+										SQLquery2 = SQLquery2 + "Date_Start = '" + EventDate + "', ";
+										SQLquery2 = SQLquery2 + "Date_End = '" + EventDate + "', ";
+										SQLquery2 = SQLquery2 + "Time_Start = '" + EventStartTime + "', ";
+										SQLquery2 = SQLquery2 + "Time_End = '" + EventEndTime + "', ";
+										SQLquery2 = SQLquery2 + "Subject = '" + EventName + "', ";
+										SQLquery2 = SQLquery2 + "Location = '" + EventLocation + "', ";
+										SQLquery2 = SQLquery2 + "Description = '" + EventDescription + "', ";
+										SQLquery2 = SQLquery2 + "LastUpdated = '" + LastUpdated + "' ";
+										SQLquery2 = SQLquery2 + "WHERE mtgID = " + EventID + " ";
+										SQLquery2 = SQLquery2 + "AND AttendeeID = '" + AttendeeID + "'";
+
+										this.db.executeSql(SQLquery2, <any>{}).then((data2) => {
+											console.log('Database: Agenda query2: ' + JSON.stringify(data2));
+											console.log('Database: Agenda query rows2: ' + data2.rows.length);
+											if(data2.rowsAffected > 0) {
+												DatabaseResponse.push({
+													PEStatus: "Success",
+													PEQuery: ""
+												});
+											} else {
+												DatabaseResponse.push({
+													PEStatus: "Fail",
+													PEQuery: ""
+												});
+											}
+											resolve(DatabaseResponse);
+										})
+										.catch(e => console.log('Database: Agenda query2 error: ' + JSON.stringify(e)))
+									} else {
+										
+										var itID = Math.floor(Math.random() * (9999999-1) + 1);
+
+										SQLquery2 = "INSERT INTO itinerary (itID, AttendeeID, atID, mtgID, EventID, Time_Start, Time_End, Location, Subject, Description, Date_Start, Date_End, LastUpdated, UpdateType) ";
+										SQLquery2 = SQLquery2 + "VALUES (" + itID + ", ";
+										SQLquery2 = SQLquery2 + "'" + AttendeeID + "', ";
+										SQLquery2 = SQLquery2 + "'" + AttendeeID + "', ";
+										SQLquery2 = SQLquery2 + "'" + itID + "', ";
+										SQLquery2 = SQLquery2 + "'0', ";
+										SQLquery2 = SQLquery2 + "'" + EventStartTime + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventEndTime + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventLocation + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventName + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventDescription + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventDate + "', ";
+										SQLquery2 = SQLquery2 + "'" + EventDate + "', ";
+										SQLquery2 = SQLquery2 + "'" + LastUpdated + "', ";
+										SQLquery2 = SQLquery2 + "'Insert')";
+
+										this.db.executeSql(SQLquery2, <any>{}).then((data2) => {
+											console.log('Database: Agenda query2: ' + JSON.stringify(data2));
+											console.log('Database: Agenda query rows2: ' + data2.rows.length);
+											if(data2.rowsAffected > 0) {
+												DatabaseResponse.push({
+													PEStatus: "Success",
+													PEQuery: ""
+												});
+											} else {
+												DatabaseResponse.push({
+													PEStatus: "Fail",
+													PEQuery: ""
+												});
+											}
+											resolve(DatabaseResponse);
+										})
+										.catch(e => console.log('Database: Agenda query2 error: ' + JSON.stringify(e)))
+									}
+								}
+							}
+						} else {
+							if (listingType == "ps") {
+								var itID = Math.floor(Math.random() * (9999999-1) + 1);
+
+								SQLquery2 = "INSERT INTO itinerary (itID, AttendeeID, atID, mtgID, EventID, Time_Start, Time_End, Location, Subject, Description, Date_Start, Date_End, LastUpdated, UpdateType) ";
+								SQLquery2 = SQLquery2 + "VALUES (" + itID + ", ";
+								SQLquery2 = SQLquery2 + "'" + AttendeeID + "', ";
+								SQLquery2 = SQLquery2 + "'" + AttendeeID + "', ";
+								SQLquery2 = SQLquery2 + "'" + itID + "', ";
+								SQLquery2 = SQLquery2 + "'0', ";
+								SQLquery2 = SQLquery2 + "'" + EventStartTime + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventEndTime + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventLocation + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventName + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventDescription + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventDate + "', ";
+								SQLquery2 = SQLquery2 + "'" + EventDate + "', ";
+								SQLquery2 = SQLquery2 + "'" + LastUpdated + "', ";
+								SQLquery2 = SQLquery2 + "'Insert')";
+
+								this.db.executeSql(SQLquery2, <any>{}).then((data2) => {
+									console.log('Database: Agenda query2: ' + JSON.stringify(data2));
+									console.log('Database: Agenda query rows2: ' + data2.rows.length);
+									if(data2.rowsAffected > 0) {
+										DatabaseResponse.push({
+											PEStatus: "Success",
+											PEQuery: ""
+										});
+									} else {
+										DatabaseResponse.push({
+											PEStatus: "Fail",
+											PEQuery: ""
+										});
+									}
+									resolve(DatabaseResponse);
+								})
+								.catch(e => console.log('Database: Agenda query2 error: ' + JSON.stringify(e)))
+							}
+							if (listingType == "pd") {
+								if (data.rowsAffected == "1") {
+									DatabaseResponse.push({
+										PEStatus: "Success",
+										PEQuery: "",
+									});
+								} else {
+									DatabaseResponse.push({
+										PEStatus: "Fail",
+										PEQuery: "",
+									});
+								}
+								resolve(DatabaseResponse);
 							}
 						}
-						resolve(DatabaseResponse);
+						//resolve(DatabaseResponse);
 					})
 					.catch(e => console.log('Database: getAgendaData query error: ' + JSON.stringify(e)))
 				});
