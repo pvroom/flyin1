@@ -126,6 +126,8 @@ export class MyApp {
 		
 		// Get the data
 		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
+		var DevPlatform = this.localstorage.getLocalValue('DevicePlatform');
+		visAvatar = true;
 		
 		if (AttendeeID != '' && AttendeeID != null) {
 
@@ -171,13 +173,20 @@ export class MyApp {
 								
 								var eventTitle = data[i].EventName.toLowerCase();
 								
-								visAvatar = false;
 								if (eventTitle.includes("breakfast") || eventTitle.includes("dinner") || eventTitle.includes("lunch") || eventTitle.includes("reception")) {
-									eventIcon = "restaurant";
-									eventAvatar = "";
+									//eventIcon = "restaurant";
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-restaurant.png";
+									} else {
+										eventAvatar = "assets/img/android-restaurant.png";
+									}
 								} else {
-									eventIcon = "time";
-									eventAvatar = "";
+									//eventIcon = "time";
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-time.png";
+									} else {
+										eventAvatar = "assets/img/android-time.png";
+									}
 								}
 								
 							} else {
@@ -201,11 +210,13 @@ export class MyApp {
 
 								if (data[i].imageFilename != '' && data[i].imageFilename != null && data[i].imageFilename != undefined) {
 									eventAvatar = "assets/img/CongressionalMembers/" + data[i].imageFilename;
-									visAvatar = true;
 								} else {
-									eventIcon = "list-box";
-									eventAvatar = "";
-									visAvatar = false;
+									//eventIcon = "list-box";
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-listbox.png";
+									} else {
+										eventAvatar = "assets/img/android-listbox.png";
+									}
 								}
 							}
 						
@@ -215,7 +226,7 @@ export class MyApp {
 							visEventID: "'" + data[i].EventID + "|" + data[i].itID + "'",
 							EventLocation: visEventLocation,
 							eventTypeIcon: eventIcon,
-							visAvatar: visAvatar,
+							visAvatar: true,
 							ContactAvatar: eventAvatar
 						});
 
@@ -227,12 +238,20 @@ export class MyApp {
 					
 					this.upcomingAgendaItems = [];
 
+					if (DevPlatform == 'iOS') {
+						eventAvatar = "assets/img/ios-removecircle.png";
+					} else {
+						eventAvatar = "assets/img/android-removecircle.png";
+					}
+
 					this.upcomingAgendaItems.push({
 						EventName: "No upcoming agenda entries",
 						visEventTimeframe: "",
 						EventLocation: "",
 						visEventID: "'0|0'",
-						eventTypeIcon: "remove-circle"
+						eventTypeIcon: "",
+						visAvatar: true,
+						ContactAvatar: eventAvatar
 					});
 
 				}
