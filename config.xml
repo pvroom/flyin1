@@ -123,5 +123,5 @@
     <plugin name="onesignal-cordova-plugin" spec="~2.4.5" />
     <engine name="android" spec="^7.1.4" />
     <engine name="ios" spec="^4.5.5" />
-    <plugin name="mx.ferreyra.callnumber" spec="^1.0.1" />
+    <plugin name="call-number" spec="https://github.com/Rohfosho/CordovaCallNumberPlugin.git" />
 </widget>
