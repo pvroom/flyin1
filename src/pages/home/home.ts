@@ -103,17 +103,17 @@ export class HomePage {
 					if (pltfrm.is('android')) {
 						console.log("Home: Running on an Android device!");
 						this.DevicePlatform = "Android";
-						//this.connectToDb();
+						this.connectToDb();
 					}
 					if (pltfrm.is('ios')==true && pltfrm.is('mobileweb')==false) {
 						console.log("Home: Running the app on an iOS device!");
 						this.DevicePlatform = "iOS";
-						//this.connectToDb();
+						this.connectToDb();
 					}
 					if (pltfrm.is('ios')==true && pltfrm.is('mobileweb')==true) {
 						console.log("Home: Running on browser on an iOS device!");
 						this.DevicePlatform = "Browser";
-						//this.connectToDb();
+						this.connectToDb();
 					}
 
 					console.log("Home: App platform: " + this.DevicePlatform);
@@ -127,22 +127,16 @@ export class HomePage {
 	}
 
 
+	private connectToDb(): void {
 
-
-
-
-
- 
-	//private connectToDb(): void {
-
-	//	console.log('Home: Connecting to DB...');
-	//	this.sqlite.create({name: 'flyinPlanner.db', location: 'default', createFromLocation: 1}).then((db: SQLiteObject) => {
-	//		console.log('Home: Connected.');
-	//		this.db = db;
+		console.log('Home: Connecting to DB...');
+		this.sqlite.create({name: 'flyinPlanner.db', location: 'default', createFromLocation: 1}).then((db: SQLiteObject) => {
+			console.log('Home: Connected.');
+			this.db = db;
 			//this.createTables();
 			
-	//	})
-	//}
+		})
+	}
 
 	imageExists(url, callback) {
 		var img = new Image();
@@ -216,12 +210,14 @@ export class HomePage {
 		if (AttendeeID == '' || AttendeeID == null) {
 			console.log('Home: AttendeeID blank');
 			this.LogInOutIcon = 'log-in';
+			this.cd.markForCheck();
 		} else {
 			console.log('Home: Stored AttendeeID: ' + AttendeeID);
 			this.LogInOutIcon = '';
 			this.UserLoggedIn = true;
 			this.DisplayFABCall = true;
 			this.DisplayFABSMS = true;
+			this.cd.markForCheck();
 		}
 		
 		if (LoginName != '' && LoginName != null && LoginName != 'undefined') {
@@ -233,12 +229,14 @@ export class HomePage {
 			if (DevPlatform == 'iOS' || DevPlatform == 'Android') {
 				if (FlyinBanner == null) {
 					this.appBanner = 'assets/img/FlyinBanners/default.png';
+					this.cd.markForCheck();
 				} else {
 					if (FlyinBanner.length==0) {
 						this.appBanner = 'assets/img/FlyinBanners/default.png';
 					} else {
 						this.appBanner = 'assets/img/FlyinBanners/' + FlyinBanner;
 					}
+					this.cd.markForCheck();
 				}
 				
 				/*
@@ -324,6 +322,8 @@ export class HomePage {
 			this.appBanner = 'assets/img/FlyinBanners/default.png';
 		}
 
+		this.cd.markForCheck();
+
 		// Temporary use variables
 		var flags;
 		var visStartTime;
@@ -350,249 +350,7 @@ export class HomePage {
 
 		console.log('Home, ionViewWillEnter: Refresh Upcoming Agenda');
 
-		if (AttendeeID != '' && AttendeeID != null) {
-
-			console.log('Home: Attendee logged in, dashboard data loading...');
-			
-			flags = "li2|0";
-			
-			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
-				
-				console.log('Agenda List: ' + JSON.stringify(data));
-				
-				this.upcomingAgendaItems = [];	
-				this.upcomingContacts = [];	
-				
-				if (data['length']>0) {
-					
-					/*
-					if (data[0].flID != flyinID) {
-					
-						// Attendee is no longer a part of the fly-in
-						// Give notice and log them out
-						let alert = this.alertCtrl.create({
-							title: 'Account Change',
-							subTitle: 'You are no longer a member of this fly-in. You will be logged out of the app and need to log back in to load the new fly-in data.',
-							//buttons: ['OK']
-							buttons: [
-								{
-									text: 'OK',
-									handler: () => {
-										this.localstorage.setLocalValue('LoginName', '');
-										this.localstorage.setLocalValue('LoginFullName', '');
-										this.localstorage.setLocalValue('AttendeeID', '');
-										this.localstorage.setLocalValue("loginUsername", '');
-										this.localstorage.setLocalValue("loginPassword", '');
-										this.localstorage.setLocalValue('LastSync', '');
-										this.localstorage.setLocalValue("LoginNameInitials", '');
-										this.localstorage.setLocalValue("FlyinBanner", '');
-										this.localstorage.setLocalValue("FlyinMeetingID", '');
-										this.localstorage.setLocalValue("AgendaDays", '');
-										this.localstorage.setLocalValue("AgendaDates", '');
-										this.localstorage.setLocalValue("AgendaDayButtonLabels", '');
-										this.LoggedInUser = "";
-
-										//let alert = this.alertCtrl.create({
-										//	title: 'App Logout',
-										//	subTitle: 'Logout successful',
-										//	buttons: ['OK']
-										//});
-
-										//alert.present();
-
-										this.events.publish('user:Status', 'Logged Out');
-									}
-								}
-							]
-						});
-						
-						alert.present();
-						
-					} else {
-					*/
-						var ContactCheck = 0;
-						
-						//if (data['length'] > DefaultAgendaRows) {
-						//	maxRecs = DefaultAgendaRows;
-						//} else {
-							maxRecs = data['length'];
-							console.log('Records: ' + maxRecs);
-						//}
-						
-						for (var i = 0; i < maxRecs; i++) {
-
-							var dbEventDateTime = data[i].EventDate.substring(5, 10);
-							var DisplayDateTime = dbEventDateTime.replace(/-/g, '/');
-
-							visStartTime = formatTime(data[i].EventStartTime);
-							visEndTime = formatTime(data[i].EventEndTime);
-							
-							DisplayDateTime = DisplayDateTime + " from " + visStartTime + " to " + visEndTime;
-														
-							if (data[i].MeetingType == 'Other') {
-								visEventName = data[i].EventName;
-								visEventLocation = data[i].EventLocation;
-								
-								var eventTitle = data[i].EventName.toLowerCase();
-								
-								if (eventTitle.includes("breakfast") || eventTitle.includes("dinner") || eventTitle.includes("lunch") || eventTitle.includes("reception")) {
-									//eventIcon = "restaurant";
-									if (DevPlatform == 'iOS') {
-										eventAvatar = "assets/img/ios-restaurant.png";
-									} else {
-										eventAvatar = "assets/img/android-restaurant.png";
-									}
-								} else {
-									//eventIcon = "time";
-									if (DevPlatform == 'iOS') {
-										eventAvatar = "assets/img/ios-time.png";
-									} else {
-										eventAvatar = "assets/img/android-time.png";
-									}
-								}
-								
-							} else {
-								
-								if (data[i].EventName == '' || data[i].EventName === null) {
-									var tempTitle = "Meeting with ";
-									// If available, use Nickname field for First Name
-									if (data[i].Nickname != "" && data[i].Nickname != null) {
-										tempTitle = tempTitle + data[i].Nickname;
-									} else {
-										tempTitle = tempTitle + data[i].FirstName;
-									}
-									tempTitle = tempTitle + " " + data[i].LastName;
-									tempTitle = tempTitle + " (" + data[i].Party.charAt(0) + " - " + data[i].State + ")";
-									visEventName = tempTitle;
-									visEventLocation = data[i].Address;
-								} else {
-									visEventName = data[i].EventName;
-									visEventLocation = data[i].EventLocation;
-								}
-
-								if (data[i].imageFilename != '' && data[i].imageFilename != null && data[i].imageFilename != undefined) {
-									eventAvatar = "assets/img/CongressionalMembers/" + data[i].imageFilename;
-								} else {
-									//eventIcon = "list-box";
-									if (DevPlatform == 'iOS') {
-										eventAvatar = "assets/img/ios-listbox.png";
-									} else {
-										eventAvatar = "assets/img/android-listbox.png";
-									}
-								}
-							}
-							
-							this.upcomingAgendaItems.push({
-								EventName: visEventName,
-								visEventTimeframe: DisplayDateTime,
-								visEventID: "'" + data[i].EventID + "|" + data[i].itID + "'",
-								EventLocation: visEventLocation,
-								eventTypeIcon: eventIcon,
-								visAvatar: true,
-								ContactAvatar: eventAvatar
-							});
-
-							/*
-							if (ContactCheck == 0) {
-								
-								if (data[i].FirstName != '' && data[i].FirstName != null && data[i].FirstName != undefined) {
-									
-									var tempTitle = data[i].FirstName + " " + data[i].LastName;
-									var tempAffiliation = data[i].Party + " - " + data[i].State;
-									var tempAvatar = "assets/img/CongressionalMembers/" + data[i].imageFilename;
-									
-									this.upcomingContacts.push({
-										cmID: data[i].congressionalMemberID,
-										ContactAvatar: tempAvatar,
-										visContactName: tempTitle,
-										visAffiliation: tempAffiliation
-									});
-									
-									ContactCheck = 1;
-								
-								}
-							}
-							*/
-						}
-					/*
-					}
-					*/
-				} else {
-					
-					if (DevPlatform == 'iOS') {
-						eventAvatar = "assets/img/ios-removecircle.png";
-					} else {
-						eventAvatar = "assets/img/android-removecircle.png";
-					}
-
-					this.upcomingAgendaItems.push({
-						EventName: "No upcoming agenda entries",
-						visEventTimeframe: "",
-						EventLocation: "",
-						visEventID: "'0|0'",
-						eventTypeIcon: "",
-						visAvatar: true,
-						ContactAvatar: eventAvatar
-					});
-
-					//this.upcomingContacts.push({
-					//	cmID: 0,
-					//	ContactAvatar: "",
-					//	visContactName: "No upcoming meeting contacts",
-					//	visAffiliation: ""
-					//});
-					
-				}
-
-				this.cd.markForCheck();
-				
-			}).catch(function () {
-				console.log("Home: Promise Rejected");
-			});
-			
-		} else {
-			
-			console.log('Home: Attendee not logged in, dashboard data not loaded');
-			
-			this.upcomingAgendaItems = [];	
-
-			this.upcomingAgendaItems.push({
-				EventName: "You need to be logged in to see your agenda",
-				visEventTimeframe: "",
-				EventLocation: "",
-				visEventID: "'0|0'",
-				eventTypeIcon: "remove-circle"
-			});
-
-			this.cd.markForCheck();
-
-		}
-		
-		// iOS Date Testing
-		/*
-		console.log('Home: Date Testing');
-
-		var ThisSync2 = new Date().toUTCString();
-		console.log('Home: ThisSync2: ' + ThisSync2);
-		var ThisSync = dateFormat(ThisSync2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
-		console.log('Home: ThisSync: ' + ThisSync);
-		
-		var LastSync6 = '2018-09-01T00:00:01Z';
-		console.log('Home: LastSync6: ' + LastSync6);
-		var LastSync5 = new Date(LastSync6).toUTCString();
-		console.log('Home: LastSync5: ' + LastSync5);
-		var LastSync4 = dateFormat(LastSync5, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
-		console.log('Home: LastSync4: ' + LastSync4);
-
-		var LastSync3 = '2018-09-01T00:00:01Z';
-		console.log('Home: LastSync3: ' + LastSync3);
-		var LastSync2 = new Date(LastSync3).toUTCString();
-		console.log('Home: LastSync2: ' + LastSync2);
-		var LastSync = dateFormat(LastSync2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
-		console.log('Home: LastSync: ' + LastSync);
-
-		console.log('Home: Date Testing Complete');
-		*/
+		this.RefreshUpcomingAgenda();
 		
 	}
 	
@@ -751,56 +509,13 @@ export class HomePage {
 			
 			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
 				
+				console.log('Home, RefreshUpcomingAgenda: getAgendaData: ' + JSON.stringify(data));
+			
 				this.upcomingAgendaItems = [];	
 				//this.upcomingContacts = [];	
 				
 				if (data['length']>0) {
 					
-					/*
-					if (data[0].flID != flyinID) {
-					
-						// Attendee is no longer a part of the fly-in
-						// Give notice and log them out
-						let alert = this.alertCtrl.create({
-							title: 'Account Change',
-							subTitle: 'You are no longer a member of this fly-in. You will be logged out of the app and need to log back in to load the new fly-in data.',
-							//buttons: ['OK']
-							buttons: [
-								{
-									text: 'OK',
-									handler: () => {
-										this.localstorage.setLocalValue('LoginName', '');
-										this.localstorage.setLocalValue('LoginFullName', '');
-										this.localstorage.setLocalValue('AttendeeID', '');
-										this.localstorage.setLocalValue("loginUsername", '');
-										this.localstorage.setLocalValue("loginPassword", '');
-										this.localstorage.setLocalValue('LastSync', '');
-										this.localstorage.setLocalValue("LoginNameInitials", '');
-										this.localstorage.setLocalValue("FlyinBanner", '');
-										this.localstorage.setLocalValue("FlyinMeetingID", '');
-										this.localstorage.setLocalValue("AgendaDays", '');
-										this.localstorage.setLocalValue("AgendaDates", '');
-										this.localstorage.setLocalValue("AgendaDayButtonLabels", '');
-										this.LoggedInUser = "";
-
-										//let alert = this.alertCtrl.create({
-										//	title: 'App Logout',
-										//	subTitle: 'Logout successful',
-										//	buttons: ['OK']
-										//});
-
-										//alert.present();
-
-										this.events.publish('user:Status', 'Logged Out');
-									}
-								}
-							]
-						});
-						
-						alert.present();
-						
-					} else {
-					*/
 						var ContactCheck = 0;
 						
 						//if (data['length'] > DefaultAgendaRows) {
@@ -905,9 +620,7 @@ export class HomePage {
 							}
 							*/
 						}
-					/*
-					}
-					*/
+
 				} else {
 					
 					if (DevPlatform == 'iOS') {

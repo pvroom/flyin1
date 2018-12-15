@@ -9,7 +9,7 @@
 
 
 
-<ion-content style="background:url(assets/img/Capitol3.jpg)no-repeat center;background-size:cover">
+<ion-content style="background:url(assets/img/CapRotunda.png)no-repeat center;background-size:cover">
 
 
 	
@@ -28,8 +28,8 @@
 		</div>
 	</div>
 	<div style="text-align: center;" *ngIf="msgRequireLogin3">
-		<div style="display: inline-block; width:75%; padding:10px; background-color:#324052; color: rgb(255, 255, 255); text-align:center;font-size:16px;">
-			Your Username is the email address you gave the Prime Policy Group.&nbsp; Your password was e-mailed to that account.
+		<div style="display: inline-block; width:90%; padding:10px; background-color:transparent!important; color: rgb(255, 255, 255); text-align:center;font-size:16px;">
+			Your Username is the email address you gave Convergence.&nbsp; Your password was e-mailed to that account.
 		</div>
 	</div>
 	<div style="text-align: center;" *ngIf="LogoutSection">
@@ -44,27 +44,30 @@
 
 	<div *ngIf="LoginSection">
 		<ion-list>
-				<ion-item style="width:75%; text-align:center; margin:auto;background:#324052!important;color:#fff">
-				<ion-label style="background:#324052!important; color:rgb(255, 255, 255)">Username</ion-label>
-				<ion-input [(ngModel)]="LoginName" style="font-size: 1.25em; background:#324052!important;color:#fff" type="text"></ion-input>
+				<ion-item style="background:transparent!important;color:#fff">
+				<ion-icon name="mail" item-start></ion-icon>
+				<ion-label floating>Username</ion-label>
+				<ion-input [(ngModel)]="LoginName"></ion-input>
 			</ion-item>
 
-		</ion-list>
+			
 
 
-				  <ion-list>
+			<ion-item style="background:transparent!important;color:#fff">
+					<ion-label floating>Password</ion-label>
+					<ion-icon name="lock" item-start></ion-icon>
+			<ion-input [(ngModel)]="LoginPassword"></ion-input>
+		</ion-item>
 
-						<ion-item style="width:75%; text-align:center; margin:auto;background:#324052!important;color:#fff">
-				<ion-label style="color:#fff; ">Password</ion-label>
-				<ion-input [(ngModel)]="LoginPassword" style="font-size: 1.25em; background:#324052color:#fff" type="password"></ion-input>
-			</ion-item>
+	</ion-list>
 
 
-			<div style="text-align:center;  margin:auto">
-				<button ion-button color=secondary style="width:75%; margin-top:20px" (click)="LoginUser();">Sign In</button>
-			</div>
-		</ion-list>
-	</div>
+		<div style="text-align:center;  margin:auto">
+			<button ion-button color=secondary style="width:90%; margin-top:20px" (click)="LoginUser();">Sign In</button>
+		</div>
+
+</div>
+
 	
 </ion-content>
 

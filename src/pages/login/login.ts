@@ -245,6 +245,7 @@ export class LoginPage {
 					this.localstorage.setLocalValue("AgendaDayButtonLabels", data.FlyinMeetingDateLabels);
 					
 					// Show response
+					// Show response
 					if (data.status=="200") {
 						
 						console.log('Login: Initial AutoSync processing...');
@@ -271,16 +272,16 @@ export class LoginPage {
 							
 							console.log('Login: Refreshing Upcoming Agenda display');
 							
-							let alert = this.alertCtrl.create({
-								title: 'App Login',
-								subTitle: 'Login successful',
-								buttons: ['OK']
-							});
-							loading.dismiss();
-							alert.present();
-							
 							this.events.publish('user:Status', 'Logged In');
-														
+							
+							//let alert = this.alertCtrl.create({
+							//	title: 'App Login',
+							//	subTitle: 'Login successful',
+							//	buttons: ['OK']
+							//});
+							loading.dismiss();
+							//alert.present();
+							
 						}).catch(function () {
 							console.log("Login: UpdateM2S Sync Promise Rejected");
 						});
@@ -302,40 +303,37 @@ export class LoginPage {
 							this.navCtrl.push(MyAgenda, {}, {animate: true, direction: 'forward'}).then(() => {
 								const startIndex = this.navCtrl.getActive().index - 1;
 								this.navCtrl.remove(startIndex, 1);
-								loading.dismiss();
 							});
 							break;
 						case "MyAgendaFull":
 							this.navCtrl.push(MyAgendaFull, {}, {animate: true, direction: 'forward'}).then(() => {
 								const startIndex = this.navCtrl.getActive().index - 1;
 								this.navCtrl.remove(startIndex, 1);
-								loading.dismiss();
 							});
 							break;
 						case "Notes":
 							this.navCtrl.push(NotesPage, {}, {animate: true, direction: 'forward'}).then(() => {
 								const startIndex = this.navCtrl.getActive().index - 1;
 								this.navCtrl.remove(startIndex, 1);
-								loading.dismiss();
 							});
 							break;
 						case "Profile":
 							this.navCtrl.push(ProfilePage, {}, {animate: true, direction: 'forward'}).then(() => {
 								const startIndex = this.navCtrl.getActive().index - 1;
 								this.navCtrl.remove(startIndex, 1);
-								loading.dismiss();
 							});
 							break;
 						default:
 							// Navigate back to Home page but eliminate Back button by setting it to Root
 							this.navCtrl.setRoot(HomePage);
 							//this.navCtrl.setRoot(HomePage, {}, {animate: true, direction: 'forward'});
-							loading.dismiss();
 							break;
 					}
 										
 				},
 				err => {
+					
+					loading.dismiss();
 					
 					var ErrorMessage = "";
 					
@@ -359,8 +357,6 @@ export class LoginPage {
 						subTitle: ErrorMessage,
 						buttons: ['Try Again']
 					});
-					
-					loading.dismiss();
 					
 					alert.present();
 					

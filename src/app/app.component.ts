@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Database } from "../providers/database/database";
 import { Localstorage } from '../providers/localstorage/localstorage';
+import { Synchronization } from "../providers/synchronization/synchronization";
 import { OneSignal } from '@ionic-native/onesignal';
 //import { Network } from '@ionic-native/network';
 //import { NetworkProvider } from '../providers/network/network';
@@ -64,6 +65,7 @@ export class MyApp {
 		public platform: Platform,
 		private cd: ChangeDetectorRef,
 		private databaseprovider: Database,
+		private syncprovider: Synchronization,
 		//public networkStatus: NetworkProvider,
 		//public network: Network,
 		private localstorage: Localstorage) {
@@ -89,14 +91,6 @@ export class MyApp {
 
 		];
 	
-
-
-
-		
-		
-		
-
-
 		this.activePage = this.pages[0];
 
 		// Listen for login/logout events and 
@@ -132,17 +126,10 @@ export class MyApp {
 		if (AttendeeID != '' && AttendeeID != null) {
 
 			flags = "li2|0";
-			
-			//let loading = this.loadingCtrl.create({
-			//	spinner: 'crescent',
-			//	content: 'Loading data...'
-			//});
-
-			//loading.present();
-			
+						
 			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
 				
-				console.log('AppComponents: Getting agenda data for side menu');
+				console.log('AppComponents, LoadDashboard: getAgendaData: ' + JSON.stringify(data));
 
 				if (data['length']>0) {
 					
@@ -231,7 +218,6 @@ export class MyApp {
 						});
 
 					}
-					//loading.dismiss();
 
 
 				} else {
@@ -257,11 +243,9 @@ export class MyApp {
 				}
 
 				this.cd.markForCheck();
-				//loading.dismiss();
 				
 			}).catch(function () {
 				console.log("AppComponents: Promise Rejected");
-				//loading.dismiss();
 			});
 						
 		} else {
@@ -292,14 +276,14 @@ export class MyApp {
 			
 			console.log('AppComponents: initializeApp accessed');
 
+			// Kick off database sync M2S in separate thread
+			this.GetInitialDatabaseSync();
+
 			// Set default value
 			this.DevicePlatform = "Browser";
 
-	//Open side menu at page loading
-		this.menuCtrl.open();
-
-
-
+			//Open side menu at page loading
+			this.menuCtrl.open();
 
 			// Determine if we are running on a device
 			if (this.pltfrm.is('android')) {
@@ -354,7 +338,33 @@ export class MyApp {
 		});
 	}
 
+	GetInitialDatabaseSync() {
 
+		// Previously successful sync time
+		var LastSync3 = this.localstorage.getLocalValue('LastSync');
+		if (LastSync3 == '' || LastSync3 === null) {
+			LastSync3 = '2018-09-01T00:00:01Z';
+		}
+		var LastSync2 = new Date(LastSync3).toUTCString();
+		var LastSync = dateFormat(LastSync2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+		
+		// Current sync time in UTC
+		var ThisSync2 = new Date().toUTCString();
+		var ThisSync = dateFormat(ThisSync2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+
+		console.log('AppComponents, Initial Sync: Sync period: ' + LastSync + ' to ' + ThisSync);
+		
+		// Call AutoSync service in providers
+		this.syncprovider.DBSyncUpdateM2S(LastSync, ThisSync).then(data => {
+			console.log('AppComponents, Initial Sync: Executed UpdateM2S Sync: ' + data);
+			// Update LastSync date for next run
+			this.localstorage.setLocalValue('LastSync', ThisSync);
+		}).catch(function () {
+			console.log("AppComponents, Initial Sync: UpdateM2S Sync Promise Rejected");
+		});
+
+	}
+	
 
 
 	// OneSignal Push
