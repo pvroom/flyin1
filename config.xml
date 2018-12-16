@@ -122,6 +122,5 @@
     <plugin name="cordova-plugin-cocoapod-support" spec="~1.6.0" />
     <plugin name="onesignal-cordova-plugin" spec="~2.4.5" />
     <engine name="android" spec="^7.1.4" />
-    <engine name="ios" spec="^4.5.5" />
-    <plugin name="call-number" spec="https://github.com/Rohfosho/CordovaCallNumberPlugin.git" />
+    <plugin name="call-number" spec="git+https://github.com/Rohfosho/CordovaCallNumberPlugin.git" />
 </widget>
