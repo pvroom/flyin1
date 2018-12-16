@@ -41,7 +41,8 @@
     "cordova-android": "^7.1.4",
     "cordova-android-support-gradle-release": "^1.4.7",
     "cordova-browser": "5.0.4",
-    "cordova-ios": "^4.5.5",
+    "cordova-ios": "4.5.5",
+    "cordova-plugin-call-number": "^1.0.1",
     "cordova-plugin-cocoapod-support": "^1.6.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-dbcopy": "^2.0.0",
@@ -127,7 +128,6 @@
         "ANDROID_SUPPORT_VERSION": "27.+"
       },
       "cordova-plugin-ionic-webview": {},
-      "call-number": {},
       "cordova-sms-plugin": {},
       "cordova-plugin-ionic": {
         "APP_ID": "cc0b9cf2",
@@ -138,7 +138,8 @@
         "MIN_BACKGROUND_DURATION": "30"
       },
       "cordova-plugin-cocoapod-support": {},
-      "onesignal-cordova-plugin": {}
+      "onesignal-cordova-plugin": {},
+      "cordova-plugin-call-number": {}
     },
     "platforms": [
       "android",

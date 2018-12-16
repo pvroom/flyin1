@@ -27,7 +27,7 @@
     <preference name="ShowSplashScreenSpinner" value="true" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="SplashScreenSpinnerColor" value="#ffffff" />
-    <preference name="DisableDeploy" value="true" />
+    <preference name="DisableDeploy" value="false" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <platform name="android">
         <allow-intent href="market:*" />
@@ -121,6 +121,7 @@
     </plugin>
     <plugin name="cordova-plugin-cocoapod-support" spec="~1.6.0" />
     <plugin name="onesignal-cordova-plugin" spec="~2.4.5" />
-    <engine name="android" spec="^7.1.4" />
     <plugin name="cordova-plugin-call-number" spec="^1.0.1" />
+    <engine name="android" spec="^7.1.4" />
+    <engine name="ios" spec="4.5.5" />
 </widget>
