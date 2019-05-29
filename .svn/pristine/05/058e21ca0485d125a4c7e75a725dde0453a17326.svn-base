@@ -1,0 +1,51 @@
+page-profile {
+
+
+	.rubyRed  {
+		background:linear-gradient(to top left, #200122 0%, #6f0000 100%);
+	  }
+
+
+	  .mutedRed {
+		background:#78909c!important;
+		color:#fff;
+		font-size: 1em;
+	}
+
+
+    .bg-style {
+        background: #5757A0;
+    }
+
+	.TextReset {
+		text-transform: capitalize !important;
+	}
+	
+	.avatar {
+		vertical-align: middle;
+        width: 30vw !important;
+     	height: 30vw !important;
+		font-size: 3em;
+	}
+
+
+	ion-avatar img  {
+		width: 25vw !important;
+		height: 25vw !important;
+		max-width: 300px !important;
+		max-height: 300px !important;
+	}
+
+
+
+	ion-icon {
+		font-size: 50px;
+	}
+	
+	.InputBoxW {
+		background-color:#fff;
+		color: #444;
+		padding-left:10px;
+	}
+
+}

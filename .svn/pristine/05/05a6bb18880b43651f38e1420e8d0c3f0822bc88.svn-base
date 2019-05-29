@@ -1,0 +1,56 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>Your Profile</ion-title>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="rubyRed">
+
+	<ion-grid>
+		<!-- Avatar row to show when using a browser; static image -->
+		<ion-row>
+			<ion-col>
+			</ion-col>
+			<ion-col>
+				<ion-item no-lines style="background:transparent">
+					<ion-avatar>
+						<ion-text-avatar class="avatar" color="secondary">{{AttendeeInitials}}</ion-text-avatar>
+					</ion-avatar>
+				</ion-item>
+			</ion-col>
+			<ion-col>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+
+	<ion-grid>
+
+        <ion-row>
+            <ion-col>
+				<ion-item>{{prAttendeeName}}</ion-item>
+            </ion-col>
+		</ion-row>
+		
+        <ion-row>
+            <ion-col>
+			
+							<button class="mutedRed TextReset" ion-button block (click)="ChangePassword()">
+									Change Password
+							</button>
+						</ion-col>
+
+						<ion-col>
+							<button class="mutedRed TextReset" ion-button block (click)="SignOut()">
+								Sign Out
+							</button>
+						</ion-col>
+					</ion-row>
+
+	</ion-grid>
+	
+</ion-content>
