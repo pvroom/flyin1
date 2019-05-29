@@ -1,17 +1,21 @@
 page-profile {
 
-    .bg-style {
-        background: #5757A0;
-    }
-
-
 
 	.rubyRed  {
 		background:linear-gradient(to top left, #200122 0%, #6f0000 100%);
 	  }
 
 
+	  .mutedRed {
+		background:#78909c!important;
+		color:#fff;
+		font-size: 1em;
+	}
 
+
+    .bg-style {
+        background: #5757A0;
+    }
 
 	.TextReset {
 		text-transform: capitalize !important;

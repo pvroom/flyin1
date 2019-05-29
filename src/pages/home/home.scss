@@ -1,11 +1,13 @@
 page-home {
 
+  
+  .list .item-icon
+{
+font-size:34px; /* as big size as you want */
+}
 
-// html
 
 
-
-	
 	/* Tweak to allow fab button to have text */
 	.fab {
 		contain: layout;
@@ -49,7 +51,7 @@ page-home {
             right: 45px;
 
             color: #fff;
-            background-color:#78909c;;
+            background-color:#78909c;
             line-height: 32px;
             padding: 4px 8px;
 			border-radius: 4px;
@@ -97,10 +99,16 @@ color:#fff;
   }
   
 .mutedBlue {
-	background:#2c3e50!important;
+  background:#2c3e50!important;
 	color:#fff;
 	font-size: 1.5em;
 }
+
+.rubyRed  {
+
+  background:linear-gradient(to top left, #200122 0%, #6f0000 100%);
+}
+
 
 .mutedRed {
 	background:#ecf0f1!important;
@@ -147,17 +155,12 @@ font-weight:bold;
 
 
 .bgCityscape2 {
-  background: linear-gradient(to top left, #160f33 0%, #4a0550c9 100%);
+  background: linear-gradient(to top left, #160f33 0%, #4a0550 100%);
   //background: url('../assets/img/pliLogo.png') no-repeat center;
   background-size: cover;
   Font-size:20px;
 }
 
-
-.rubyRed  {
-
-  background:linear-gradient(to top left, #200122 0%, #6f0000 100%);
-}
 
 
 .bgCityscape1 {
@@ -174,13 +177,6 @@ font-weight:bold;
 }
 
 }
-
-.list .item-icon
-{
-font-size:28px; /* as big size as you want */
-}
-
-
 
 // This code is required for Angular Google Maps to function
 

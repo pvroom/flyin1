@@ -25,6 +25,7 @@ import { MyAgendaFull } from '../pages/myagendafull/myagendafull';
 import { IssuesPage } from '../pages/issues/issues';
 import { NotificationsPage } from '../pages/notifications/notifications'; 
 import { SurveyPage } from '../pages/survey/survey'; 
+import { MeetingDetailsPage } from '../pages/meetingdetails/meetingdetails'; 
 
 // Temporary Support Pages
 //import { FloorplanMappingPage } from '../pages/floorplanmapping/floorplanmapping';
@@ -51,14 +52,19 @@ export class MyApp {
 	public appInfo: any;
 	public deployInfo: any;
 
+	// Testing staff Fly-ins dropdown
+	public staffFlyins: any[] = [];
+	public staffFlyinsDropdown = false;
+	public selectedFlyin: string;
 	
 	constructor(
 		public pltfrm: Platform,
+		//public navCtrl: NavController,
 		private statusBar: StatusBar,
 		public loadingCtrl: LoadingController,
 		public storage: Storage,
 		public splashScreen: SplashScreen,
-		public alertCtrl: AlertController,
+		public alertCtrl: AlertController, 
 		private oneSignal: OneSignal,
 		public events: Events,
 		public menuCtrl: MenuController,
@@ -73,38 +79,260 @@ export class MyApp {
 
 		this.initializeApp();
 				
-		// used for an example of ngFor and navigation
+		// Dynamically set the menu option for Materials based on fly-in type
+		var flyinType = this.localstorage.getLocalValue("FlyinType");
+		if (flyinType == null || flyinType == '') {
+			flyinType = 'Fly-in';
+		}
+		var MenuOptionTitle = flyinType + ' Materials';
+		
 		this.pages = [
 		  { title: 'Home', icon: 'home', component: HomePage, naventry: 'Home' },
 		  { title: 'My Agenda', icon: 'calendar', component: MyAgenda, naventry: 'MyAgenda' },
 		  { title: 'Senators', icon: 'people', component: CongressionalMembersPage, naventry: 'Senators' },
 		  { title: 'Representatives', icon: 'people', component: CongressionalMembersPage, naventry: 'Representatives' },
-		  { title: 'Issues', icon: 'folder-open', component: IssuesPage, naventry: 'Issues' },
-		  { title: 'Maps', icon: 'map', component: MapPage, naventry: 'Map' },
+		  { title: MenuOptionTitle, icon: 'folder-open', component: IssuesPage, naventry: 'Issues' },
+		  { title: 'Maps', icon: 'map', component: MapPage, naventry: 'Maps' },
 		  { title: 'Washington DC', icon: 'compass', component: ConferenceCityPage, naventry: 'ConferenceCity' },
 		  { title: 'Help', icon: 'help-circle', component: HelpPage, naventry: 'Help' },
 		  { title: 'Notes', icon: 'create', component: NotesPage, naventry: 'Notes' },
-		  { title: 'Survey', icon: 'list-box', component: SurveyPage, naventry: 'Survey' },
+		  { title: 'Feedback', icon: 'clipboard', component: SurveyPage, naventry: 'Feedback' },
+		  //{ title: 'Push', icon: 'list-box', component: PushPage, naventry: 'Push Notifications' },
+		  { title: 'Push Notifications', icon: 'notifications', component: NotificationsPage, naventry: 'Notifications' },
 		  //{ title: 'Floorplan Mapping', icon: 'create', component: FloorplanMappingPage, naventry: 'FloorplanMapping' },
 		  //{ title: 'About', icon: 'log-in', component: LoginPage, naventry: 'Login' }
 		  //{ title: 'More', icon: 'log-in', component: MorePage, naventry: 'More' }
 
 		];
-	
+
+		
 		this.activePage = this.pages[0];
 
 		// Listen for login/logout events and 
 		// refresh side menu dashboard
 		this.events.subscribe('user:Status', (LoginType) => {
 			console.log('AppComponents: User has ', LoginType);
-			if (LoginType=='Logged In') {
+			if (LoginType == 'Logged In') {
+				this.ResetLeftMenuOptions();
 				this.LoadDashboard();
+			}
+			if (LoginType == 'Logged Out') {
+				this.ResetLeftMenuOptions();
+				this.staffFlyinsDropdown = false;
 			}
 		});
 
-
+		// Listen for login/logout events and 
+		// refresh side menu dashboard
+		this.events.subscribe('user:StaffSync', (SyncMsg) => {
+			console.log('AppComponents, StaffSync: ', SyncMsg);
+			// Update if the dropdown is visible (i.e. logged in as staff member)
+			if (this.staffFlyinsDropdown == true) {
+				this.UpdateFlyinDropdown();
+			}
+		});
+		
 	}
 
+	ResetLeftMenuOptions() {
+		
+		// Dynamically set the menu option for Materials based on fly-in type
+		var flyinType = this.localstorage.getLocalValue("FlyinType");
+		if (flyinType == null || flyinType == '') {
+			flyinType = 'Fly-in';
+		}
+		var MenuOptionTitle = flyinType + ' Materials';
+		
+		this.pages = [
+		  { title: 'Home', icon: 'home', component: HomePage, naventry: 'Home' },
+		  { title: 'My Agenda', icon: 'calendar', component: MyAgenda, naventry: 'MyAgenda' },
+		  { title: 'Senators', icon: 'people', component: CongressionalMembersPage, naventry: 'Senators' },
+		  { title: 'Representatives', icon: 'people', component: CongressionalMembersPage, naventry: 'Representatives' },
+		  { title: MenuOptionTitle, icon: 'folder-open', component: IssuesPage, naventry: 'Issues' },
+		  { title: 'Maps', icon: 'map', component: MapPage, naventry: 'Maps' },
+		  { title: 'Washington DC', icon: 'compass', component: ConferenceCityPage, naventry: 'ConferenceCity' },
+		  { title: 'Help', icon: 'help-circle', component: HelpPage, naventry: 'Help' },
+		  { title: 'Notes', icon: 'create', component: NotesPage, naventry: 'Notes' },
+		  //{ title: 'Feedback', icon: 'clipboard', component: SurveyPage, naventry: 'Feedback' },
+		  //{ title: 'Push', icon: 'list-box', component: PushPage, naventry: 'Push Notifications' },
+		  { title: 'Push Notifications', icon: 'notifications', component: NotificationsPage, naventry: 'Notifications' },
+		  //{ title: 'Floorplan Mapping', icon: 'create', component: FloorplanMappingPage, naventry: 'FloorplanMapping' },
+		  //{ title: 'About', icon: 'log-in', component: LoginPage, naventry: 'Login' }
+		  //{ title: 'More', icon: 'log-in', component: MorePage, naventry: 'More' }
+
+		];
+
+		this.activePage = this.pages[0];
+		this.cd.markForCheck();
+
+	}
+	
+	SetFlyin(eventData) {
+		
+		console.log('SetFlyin, passed value: ' + eventData);
+		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
+		
+		if (eventData != undefined && eventData != CurrentFlyinID) {
+			
+			console.log('Current fly-in: ' + CurrentFlyinID);
+			console.log('Selected fly-in: ' + this.selectedFlyin);
+			
+			// Spinner for switch
+			let loading = this.loadingCtrl.create({
+				spinner: 'crescent',
+				content: 'Switching fly-ins...'
+			});
+
+			loading.present();
+			
+			var flags = "";
+			var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
+			this.localstorage.setLocalValue("FlyinMeetingID", eventData);
+			
+			flags = "sfd|0|" + eventData;
+			
+			this.databaseprovider.getDatabaseStats(flags, AttendeeID).then(dataFD => {
+				
+				console.log('AppComponents, Change Event, Staff-Fly-ins: getDatabaseStats: ' + JSON.stringify(dataFD));
+
+				if (dataFD['length']>0) {
+					
+					// Update local storage values
+					this.localstorage.setLocalValue("FlyinBanner", dataFD[0].FlyinBanner);
+					this.localstorage.setLocalValue("FlyinMeetingID", eventData);
+					this.localstorage.setLocalValue("AgendaDays", dataFD[0].NumberOfDays);
+					this.localstorage.setLocalValue("AgendaDates", dataFD[0].MeetingDates);
+					this.localstorage.setLocalValue("AgendaDayButtonLabels", dataFD[0].MeetingDateLabels);
+					this.localstorage.setLocalValue('CallPrimeNumber', dataFD[0].PhoneHelpDesk);
+					this.localstorage.setLocalValue('TextPrimeNumber', dataFD[0].PhoneSMSMessages);
+					//this.localstorage.setLocalValue('FlyinType', dataFD[0].FlyinType);
+
+					// Trigger update on Home page
+					this.events.publish('user:Staff', 'Updated Dropdown');
+					this.UpdateFlyinDropdown();
+					
+					// Redirect to Home back as root page
+					this.navCtrl.setRoot(HomePage);
+					
+				}
+							
+			}).catch(function () {
+				console.log("AppComponents, SetFlyin: Promise Rejected");
+			});
+
+			loading.dismiss();
+
+		}
+		
+	}
+
+	
+	UpdateFlyinDropdown() {
+		
+		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
+		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
+		var FlyinSetCheck = 99;
+		
+		if (AttendeeID != '' && AttendeeID != null) {
+
+			var LoginType = this.localstorage.getLocalValue('LoginType');
+			
+			if (LoginType == '1') {
+				
+				this.staffFlyinsDropdown = true;
+				this.cd.markForCheck();
+
+				// Staff fly-ins dropdown
+				var flags = "sfl|0";
+				
+				this.databaseprovider.getDatabaseStats(flags, AttendeeID).then(dataSF => {
+					
+					console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins, getDatabaseStats: ' + JSON.stringify(dataSF));
+
+					if (dataSF['length']>0) {
+						
+						this.staffFlyins = [];
+
+						console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins: Looping through data for Staff fly-ins dropdown');
+											
+						for (var i = 0; i < dataSF['length']; i++) {
+							
+							this.staffFlyins.push({
+								DisplayName: dataSF[i].Title,
+								flyinID: dataSF[i].flID
+							});
+
+							// Set current selection for dropdown
+							if (dataSF[i].flID == CurrentFlyinID) {
+								this.selectedFlyin = this.staffFlyins[i];
+								console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins, Reset dropdown [' + i + ']: ' + JSON.stringify(this.staffFlyins[i]));
+								FlyinSetCheck = i;
+							}
+							
+						}
+
+						// If current fly-in was removed, then set to first available
+						if (FlyinSetCheck == 99) {
+							console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins, Set to new dropdown [0]: ' + JSON.stringify(this.staffFlyins[0]));
+							this.selectedFlyin = this.staffFlyins[0];
+							this.SetFlyin(this.staffFlyins[0].flyinID);
+						}
+						this.cd.markForCheck();
+						
+					} else {
+						
+						this.staffFlyins = [];
+
+						// No more fly-ins, so user needs to be logged out
+						// and wipe localstorage variables
+						this.localstorage.setLocalValue('LoginName', '');
+						this.localstorage.setLocalValue('LoginFullName', '');
+						this.localstorage.setLocalValue('AttendeeID', '');
+						this.localstorage.setLocalValue("loginUsername", '');
+						this.localstorage.setLocalValue("loginPassword", '');
+						this.localstorage.setLocalValue('LastSync', '');
+						this.localstorage.setLocalValue("LoginNameInitials", '');
+						this.localstorage.setLocalValue("FlyinBanner", '');
+						this.localstorage.setLocalValue("FlyinMeetingID", '');
+						this.localstorage.setLocalValue("AgendaDays", '');
+						this.localstorage.setLocalValue("AgendaDates", '');
+						this.localstorage.setLocalValue("AgendaDayButtonLabels", '');
+						this.localstorage.setLocalValue('CallPrimeNumber', '');
+						this.localstorage.setLocalValue('TextPrimeNumber', '');
+						this.localstorage.setLocalValue('ForwardingPage', '');
+						this.localstorage.setLocalValue('FlyinType', 'Fly-in');
+
+						// Notify the user of what's happening
+						let alert = this.alertCtrl.create({
+							title: 'App Logout',
+							subTitle: 'You have been removed from any and all fly-ins. Therefore, you will now be logged out of the app. Please contact the fly-in administrator for details.',
+							buttons: ['OK']
+						});
+						
+						alert.present();
+
+						// Notify the Home page to update
+						this.events.publish('user:Status', 'Logged Out');
+						
+						// Redirect the user from wherever they are to the Home page
+						this.navCtrl.setRoot(HomePage);
+
+					}
+					
+					console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins: ' + JSON.stringify(this.staffFlyins));
+
+					this.cd.markForCheck();
+					
+				}).catch(function () {
+					console.log("AppComponents, UpdateFlyinDropdown: Promise Rejected");
+				});
+				
+			}
+			
+		}
+		
+	}
+	
 	LoadDashboard() {
 		
 		// Temporary use variables
@@ -121,12 +349,92 @@ export class MyApp {
 		// Get the data
 		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
 		var DevPlatform = this.localstorage.getLocalValue('DevicePlatform');
+		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
+		var FlyinSetCheck = 99;
+
 		visAvatar = true;
 		
 		if (AttendeeID != '' && AttendeeID != null) {
 
-			flags = "li2|0";
+			var LoginType = this.localstorage.getLocalValue('LoginType');
+			
+			if (LoginType == '1') {
+				
+				this.staffFlyinsDropdown = true;
+				this.cd.markForCheck();
+
+			}
+			
+			/*
+			if (LoginType == '1') {
+				
+				this.staffFlyinsDropdown = true;
+				this.cd.markForCheck();
+
+				// Staff fly-ins dropdown
+				flags = "sfl|0";
+				
+				this.databaseprovider.getDatabaseStats(flags, AttendeeID).then(dataSF => {
+					
+					console.log('AppComponents, LoadDashboard, Staff-Fly-ins: getDatabaseStats: ' + JSON.stringify(dataSF));
+
+					if (dataSF['length']>0) {
 						
+						this.staffFlyins = [];
+
+						console.log('AppComponents, LoadDashboard, Staff-Fly-ins: Looping through data for Staff fly-ins dropdown');
+											
+						for (var i = 0; i < dataSF['length']; i++) {
+							
+							this.staffFlyins.push({
+								DisplayName: dataSF[i].Title,
+								flyinID: dataSF[i].flID
+							});
+							
+							// Set current selection for dropdown
+							if (dataSF[i].flID == CurrentFlyinID) {
+								this.selectedFlyin = this.staffFlyins[i];
+								console.log('AppComponents, LoadDashboard, Staff-Fly-ins, Reset dropdown [' + i + ']: ' + JSON.stringify(this.staffFlyins[i]));
+								FlyinSetCheck = i;
+							}
+							
+						}
+						
+						// If current fly-in was removed, then set to first available
+						if (FlyinSetCheck == 99) {
+							console.log('AppComponents, LoadDashboard, Staff-Fly-ins, Set to new dropdown [0]: ' + JSON.stringify(this.staffFlyins[0]));
+							this.selectedFlyin = this.staffFlyins[0];
+							this.SetFlyin(this.staffFlyins[0].flyinID);
+						}
+						this.cd.markForCheck();
+
+					} else {
+						
+						this.staffFlyins = [];
+
+						this.staffFlyins.push({
+							DisplayName: "Not assigned a fly-in",
+							flyinID: "0"
+						});
+
+					}
+					
+					console.log('AppComponents, LoadDashboard, Staff-Fly-ins: getDatabaseStats: ' + JSON.stringify(this.staffFlyins));
+
+					this.cd.markForCheck();
+					
+				}).catch(function () {
+					console.log("AppComponents: Promise Rejected");
+				});
+				
+			}
+			*/
+			
+
+
+			// Agenda details
+			flags = "li2|0|0|0|0|0|0|0|0|0|0|0|" + CurrentFlyinID;
+			
 			this.databaseprovider.getAgendaData(flags, AttendeeID).then(data => {
 				
 				console.log('AppComponents, LoadDashboard: getAgendaData: ' + JSON.stringify(data));
@@ -158,17 +466,52 @@ export class MyApp {
 								visEventName = data[i].EventName;
 								visEventLocation = data[i].EventLocation;
 								
+								// Auto-icon determination
 								var eventTitle = data[i].EventName.toLowerCase();
+								var iconSet = false;
 								
-								if (eventTitle.includes("breakfast") || eventTitle.includes("dinner") || eventTitle.includes("lunch") || eventTitle.includes("reception")) {
-									//eventIcon = "restaurant";
+								if (eventTitle.includes("breakfast") || eventTitle.includes("dinner") || eventTitle.includes("lunch")) {
 									if (DevPlatform == 'iOS') {
 										eventAvatar = "assets/img/ios-restaurant.png";
 									} else {
 										eventAvatar = "assets/img/android-restaurant.png";
 									}
-								} else {
-									//eventIcon = "time";
+									iconSet = true;
+								}
+								if (eventTitle.includes("photo")) {
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-camera.png";
+									} else {
+										eventAvatar = "assets/img/android-camera.png";
+									}
+									iconSet = true;
+								}
+								if (eventTitle.includes("cocktail") || eventTitle.includes("reception")) {
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-wine.png";
+									} else {
+										eventAvatar = "assets/img/android-wine.png";
+									}
+									iconSet = true;
+								}
+								if (eventTitle.includes("bus") || eventTitle.includes("taxi") || eventTitle.includes("car") || eventTitle.includes("train")) {
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-bus.png";
+									} else {
+										eventAvatar = "assets/img/android-bus.png";
+									}
+									iconSet = true;
+								}
+								if (eventTitle.includes("hotel") || eventTitle.includes("accommodation") || eventTitle.includes("motel") || eventTitle.includes("stay")) {
+									if (DevPlatform == 'iOS') {
+										eventAvatar = "assets/img/ios-bed.png";
+									} else {
+										eventAvatar = "assets/img/android-bed.png";
+									}
+									iconSet = true;
+								}
+								
+								if (iconSet == false) {
 									if (DevPlatform == 'iOS') {
 										eventAvatar = "assets/img/ios-time.png";
 									} else {
@@ -250,6 +593,7 @@ export class MyApp {
 						
 		} else {
 			
+			this.staffFlyinsDropdown = false;
 			this.upcomingAgendaItems = [];
 
 			this.upcomingAgendaItems.push({
@@ -274,16 +618,22 @@ export class MyApp {
 			this.statusBar.backgroundColorByHexString('#1d1e22');
 			this.statusBar.styleLightContent();
 			
+			// Set default sync starting point here.  Update this value each time the database
+			// is refreshed or syncs get too big and slow down the app
+			this.localstorage.setLocalValue('DefaultSyncStart','2019-05-27T00:00:01Z');
+			
 			console.log('AppComponents: initializeApp accessed');
 
 			// Kick off database sync M2S in separate thread
-			this.GetInitialDatabaseSync();
+			// Disabled 2019-03-03 John Black since no area is accessible 
+			// until after a login, which kicks off its own sync.
+			//this.GetInitialDatabaseSync();
 
 			// Set default value
 			this.DevicePlatform = "Browser";
 
 			//Open side menu at page loading
-			this.menuCtrl.open();
+			//this.menuCtrl.open();
 
 			// Determine if we are running on a device
 			if (this.pltfrm.is('android')) {
@@ -309,6 +659,10 @@ export class MyApp {
 				console.log('AppComponents: Running in a browser');
 				
 			}
+
+
+
+
 		
 			// Network connectivity monitoring
 			/*
@@ -330,7 +684,8 @@ export class MyApp {
 		
 			// Refresh dashboard
 			this.LoadDashboard();
-
+			this.UpdateFlyinDropdown();
+			
 			// Hide splashscreen
 			console.log('AppComponents: Hiding splash screen');
 			this.splashScreen.hide();
@@ -341,9 +696,10 @@ export class MyApp {
 	GetInitialDatabaseSync() {
 
 		// Previously successful sync time
+		var DefaultSyncStart = this.localstorage.getLocalValue('DefaultSyncStart');
 		var LastSync3 = this.localstorage.getLocalValue('LastSync');
 		if (LastSync3 == '' || LastSync3 === null) {
-			LastSync3 = '2018-09-01T00:00:01Z';
+			LastSync3 = DefaultSyncStart;
 		}
 		var LastSync2 = new Date(LastSync3).toUTCString();
 		var LastSync = dateFormat(LastSync2, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
@@ -365,7 +721,7 @@ export class MyApp {
 
 	}
 	
-
+	
 
 	// OneSignal Push
 	initOneSignalNotification()
@@ -551,7 +907,7 @@ export class MyApp {
 					this.localstorage.setLocalValue('LoginWarning', '1');
 					this.navCtrl.push(LoginPage, {}, {animate: true, direction: 'forward'});
 					break;
-				case "Map":
+				case "Maps":
 					this.localstorage.setLocalValue('LoginWarning', '1');
 					this.navCtrl.push(LoginPage, {}, {animate: true, direction: 'forward'});
 					break;
@@ -570,6 +926,10 @@ export class MyApp {
 					break;
 				case "Representatives":
 					this.localstorage.setLocalValue('CongressionalChamber', 'House of Representatives');
+					this.localstorage.setLocalValue('LoginWarning', '1');
+					this.navCtrl.push(LoginPage, {}, {animate: true, direction: 'forward'});
+					break;
+				case "Notifications":
 					this.localstorage.setLocalValue('LoginWarning', '1');
 					this.navCtrl.push(LoginPage, {}, {animate: true, direction: 'forward'});
 					break;
@@ -593,7 +953,6 @@ export class MyApp {
 	}
 	
 }
-
 
 
 

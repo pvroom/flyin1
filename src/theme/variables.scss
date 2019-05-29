@@ -41,6 +41,7 @@ blue:       #5757A0,
 gray:       #bac7d8,
 green:      #33cd5f,
 yellow:     #ffc900,
+red:        #800000,
 
 
 );
@@ -53,9 +54,23 @@ yellow:     #ffc900,
 
 
 
+$radio-md-color-on: #800000;
+$radio-md-icon-width:24px;
+$radio-md-icon-height:24px;
+
+
+
+
+
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+
+
+
+//Make status bar text white
+$toolbar-md-title-text-color: white;
+$toolbar-ios-title-text-color: white;
 
 
 
@@ -94,40 +109,27 @@ $ionicons-font-path: "../assets/fonts";
 @import "roboto";
 @import "noto-sans";
 
-// Status Bar
-// --------------------------------------------------
-
-//$toolbar-md-title-text-color: white;
-//$toolbar-ios-title-text-color: white;
 
 
-// FAB Buttons
-// --------------------------------------------------
+//Select Dropdown Component
 
-$fab-ios-background-color:#78909c;
-$fab-md-background-color:#78909c;
-$fab-md-text-color:#444;
-$fab-ios-text-color:#444;
+$select-ios-icon-color: #fff!important;
+$select-md-icon-color: #fff!important;
 
 
-//Card Headers
-// --------------------------------------------------
 
-$card-ios-header-color:#1d1e22;
-$card-md-header-color:#1d1e22;
+//Select range slider height
+$range-ios-slider-height: 40px;
+$range-md-slider-height:	40px;
 
+$range-md-bar-height:	5px;
+$range-ios-bar-height:	5px;
 
-//Buttons
-// --------------------------------------------------
+$range-md-pin-font-size: 20px;
+$range-ios-pin-font-size: 20px;
 
-$button-ios-background-color:#78909c;
-$button-md-background-color:#78909c;
+$range-ios-knob-width:  30px;
+$range-md-knob-width:  30px;
 
-
-//Gradient Background
-//---------------------------------------------------
-
-//$app-background: linear-gradient(to bottom, color($colors, light) 0%, color($colors, dark) 100%);
-//background-color: linear-gradient(to bottom, color($colors, light) 0%, color($colors, dark) 100%);
-//$toolbar-background: transparent;
-
+$range-ios-knob-background:  #800000;
+$range-md-knob-background:  #800000;
