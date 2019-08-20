@@ -40,8 +40,7 @@ declare var dateFormat: any;
 })
 export class MyApp {
 
-	@ViewChild(Nav) navCtrl: Nav; 
-	
+	@ViewChild(Nav) navCtrl: Nav;
 
 	rootPage: any = HomePage;
 	loader: any;
@@ -49,7 +48,6 @@ export class MyApp {
 	activePage: any;
 	public upcomingAgendaItems: any[] = [];
 	public DevicePlatform: string;
-
 
 	public appInfo: any;
 	public deployInfo: any;
@@ -61,13 +59,13 @@ export class MyApp {
 	
 	constructor(
 		public pltfrm: Platform,
-	//	public navCtrl: NavController,
-		private statusBar: typeof StatusBar,
+		//public navCtrl: NavController,
+		private statusBar: StatusBar,
 		public loadingCtrl: LoadingController,
 		public storage: Storage,
-		public splashScreen: typeof SplashScreen,
+		public splashScreen: SplashScreen,
 		public alertCtrl: AlertController, 
-		private oneSignal: typeof OneSignal,
+		private oneSignal: OneSignal,
 		public events: Events,
 		public menuCtrl: MenuController,
 		public platform: Platform,
@@ -237,10 +235,6 @@ export class MyApp {
 		
 		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
 		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
-		if (CurrentFlyinID == '' || CurrentFlyinID == undefined) {
-			this.localstorage.setLocalValue("FlyinMeetingID","25");
-			CurrentFlyinID = "25";
-		}
 		var FlyinSetCheck = 99;
 		
 		if (AttendeeID != '' && AttendeeID != null) {
@@ -285,7 +279,6 @@ export class MyApp {
 						if (FlyinSetCheck == 99) {
 							console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins, Set to new dropdown [0]: ' + JSON.stringify(this.staffFlyins[0]));
 							this.selectedFlyin = this.staffFlyins[0];
-							//this.SetFlyin('25');
 							this.SetFlyin(this.staffFlyins[0].flyinID);
 						}
 						this.cd.markForCheck();
@@ -647,12 +640,6 @@ export class MyApp {
 			// Disabled 2019-03-03 John Black since no area is accessible 
 			// until after a login, which kicks off its own sync.
 			//this.GetInitialDatabaseSync();
-			this.staffFlyins.push({
-				DisplayName: "",
-				flyinID: 0
-			});
-			this.selectedFlyin = this.staffFlyins[0];
-			this.cd.markForCheck();
 
 			// Set default value
 			this.DevicePlatform = "Browser";

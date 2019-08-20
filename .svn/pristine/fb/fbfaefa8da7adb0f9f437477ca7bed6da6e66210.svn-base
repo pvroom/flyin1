@@ -18,7 +18,7 @@ export class Synchronization {
 						public httpCall: Http,
 						public alertCtrl: AlertController,
 						public events: Events,
-						private sqlite: typeof SQLite,
+						private sqlite: SQLite,
 						private localstorage: Localstorage) {
         
     }

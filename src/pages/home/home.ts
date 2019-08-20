@@ -81,16 +81,16 @@ export class HomePage {
 				private readonly loadingCtrl: LoadingController,
 				private readonly toastCtrl: ToastController, 
 				private storage: Storage,
-				private statusBar: StatusBar,
+				private statusBar: typeof StatusBar,
 				private databaseprovider: Database,
 				private syncprovider: Synchronization,
 				private cd: ChangeDetectorRef,
 				public pltfrm: Platform,
-				private sqlite: SQLite,
+				private sqlite: typeof SQLite,
 				private modal: ModalController,
 				//private callNumber: CallNumber,
 				public events: Events,
-				private sms: SMS,
+				private sms: typeof SMS,
 				private localstorage: Localstorage) {
 
 

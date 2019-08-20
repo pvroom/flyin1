@@ -32,13 +32,13 @@ var APIURLReference: string = "https://demoflyin.convergence-us.com/flyinPlanner
 export class Database {
 
 	/* Setup page variables */
-    private storage: typeof SQLite;
+    private storage: SQLite;
 	private db: SQLiteObject;
 	 
     public constructor(public pltfrm: Platform, 
 						public httpCall: Http,
 						public alertCtrl: AlertController,
-						private sqlite: typeof SQLite,
+						private sqlite: SQLite,
 						private localstorage: Localstorage) {
 
 	}

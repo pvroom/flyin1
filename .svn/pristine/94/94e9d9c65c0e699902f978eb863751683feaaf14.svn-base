@@ -40,8 +40,7 @@ declare var dateFormat: any;
 })
 export class MyApp {
 
-	@ViewChild(Nav) navCtrl: Nav; 
-	
+	@ViewChild(Nav) navCtrl: Nav;
 
 	rootPage: any = HomePage;
 	loader: any;
@@ -49,7 +48,6 @@ export class MyApp {
 	activePage: any;
 	public upcomingAgendaItems: any[] = [];
 	public DevicePlatform: string;
-
 
 	public appInfo: any;
 	public deployInfo: any;
@@ -61,13 +59,13 @@ export class MyApp {
 	
 	constructor(
 		public pltfrm: Platform,
-	//	public navCtrl: NavController,
-		private statusBar: typeof StatusBar,
+		//public navCtrl: NavController,
+		private statusBar: StatusBar,
 		public loadingCtrl: LoadingController,
 		public storage: Storage,
-		public splashScreen: typeof SplashScreen,
+		public splashScreen: SplashScreen,
 		public alertCtrl: AlertController, 
-		private oneSignal: typeof OneSignal,
+		private oneSignal: OneSignal,
 		public events: Events,
 		public menuCtrl: MenuController,
 		public platform: Platform,

@@ -40,8 +40,7 @@ declare var dateFormat: any;
 })
 export class MyApp {
 
-	@ViewChild(Nav) navCtrl: Nav; 
-	
+	@ViewChild(Nav) navCtrl: Nav;
 
 	rootPage: any = HomePage;
 	loader: any;
@@ -49,7 +48,6 @@ export class MyApp {
 	activePage: any;
 	public upcomingAgendaItems: any[] = [];
 	public DevicePlatform: string;
-
 
 	public appInfo: any;
 	public deployInfo: any;
@@ -61,13 +59,13 @@ export class MyApp {
 	
 	constructor(
 		public pltfrm: Platform,
-	//	public navCtrl: NavController,
-		private statusBar: typeof StatusBar,
+		//public navCtrl: NavController,
+		private statusBar: StatusBar,
 		public loadingCtrl: LoadingController,
 		public storage: Storage,
-		public splashScreen: typeof SplashScreen,
+		public splashScreen: SplashScreen,
 		public alertCtrl: AlertController, 
-		private oneSignal: typeof OneSignal,
+		private oneSignal: OneSignal,
 		public events: Events,
 		public menuCtrl: MenuController,
 		public platform: Platform,
@@ -173,10 +171,6 @@ export class MyApp {
 		
 		console.log('SetFlyin, passed value: ' + eventData);
 		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
-		if (CurrentFlyinID == '' || CurrentFlyinID == undefined) {
-			this.localstorage.setLocalValue("FlyinMeetingID","25");
-			CurrentFlyinID = "25";
-		}
 		
 		if (eventData != undefined && eventData != CurrentFlyinID) {
 			
@@ -237,10 +231,6 @@ export class MyApp {
 		
 		var AttendeeID = this.localstorage.getLocalValue('AttendeeID');
 		var CurrentFlyinID = this.localstorage.getLocalValue("FlyinMeetingID");
-		if (CurrentFlyinID == '' || CurrentFlyinID == undefined) {
-			this.localstorage.setLocalValue("FlyinMeetingID","25");
-			CurrentFlyinID = "25";
-		}
 		var FlyinSetCheck = 99;
 		
 		if (AttendeeID != '' && AttendeeID != null) {
@@ -285,7 +275,6 @@ export class MyApp {
 						if (FlyinSetCheck == 99) {
 							console.log('AppComponents, UpdateFlyinDropdown, Staff-Fly-ins, Set to new dropdown [0]: ' + JSON.stringify(this.staffFlyins[0]));
 							this.selectedFlyin = this.staffFlyins[0];
-							//this.SetFlyin('25');
 							this.SetFlyin(this.staffFlyins[0].flyinID);
 						}
 						this.cd.markForCheck();
@@ -301,7 +290,7 @@ export class MyApp {
 						this.localstorage.setLocalValue('AttendeeID', '');
 						this.localstorage.setLocalValue("loginUsername", '');
 						this.localstorage.setLocalValue("loginPassword", '');
-						this.localstorage.setLocalValue('LastUserSync', '');
+						this.localstorage.setLocalValue('LastSync', '');
 						this.localstorage.setLocalValue("LoginNameInitials", '');
 						this.localstorage.setLocalValue("FlyinBanner", '');
 						this.localstorage.setLocalValue("FlyinMeetingID", '');
@@ -632,10 +621,10 @@ export class MyApp {
 			// Set default sync starting point here.  Update this value each time the database
 			// is refreshed or syncs get too big and slow down the app
 			//this.localstorage.setLocalValue('DefaultSyncStart','2019-05-27T00:00:01Z');
-			this.localstorage.setLocalValue('DefaultSyncStart','2019-08-19T17:00:01Z');		// Use with next publish
+			this.localstorage.setLocalValue('DefaultSyncStart','2019-07-19T17:00:01Z');		// Use with next publish
 
 			// Set user sync starting point here.
-			this.localstorage.setLocalValue('UserSyncStart','2019-08-19T00:00:01Z');
+			this.localstorage.setLocalValue('UserSyncStart','2019-05-27T00:00:01Z');
 
 			// Set current database version here.  Update this value each time the database
 			// is refreshed or syncs get too big and slow down the app
@@ -647,12 +636,6 @@ export class MyApp {
 			// Disabled 2019-03-03 John Black since no area is accessible 
 			// until after a login, which kicks off its own sync.
 			//this.GetInitialDatabaseSync();
-			this.staffFlyins.push({
-				DisplayName: "",
-				flyinID: 0
-			});
-			this.selectedFlyin = this.staffFlyins[0];
-			this.cd.markForCheck();
 
 			// Set default value
 			this.DevicePlatform = "Browser";
