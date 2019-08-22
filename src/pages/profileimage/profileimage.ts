@@ -28,7 +28,7 @@ export class ProfileImagePage {
 				private view: ViewController,
 				public loadingCtrl: LoadingController,
 				public http: HttpClient,
-				private camera: typeof Camera,
+				private camera: Camera,
 				public _DomSanitizer: DomSanitizer,
 				private localstorage: Localstorage) {
 				

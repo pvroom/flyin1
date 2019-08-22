@@ -40,8 +40,7 @@ declare var dateFormat: any;
 })
 export class MyApp {
 
-	@ViewChild(Nav) navCtrl: Nav; 
-	
+	@ViewChild(Nav) navCtrl: Nav;
 
 	rootPage: any = HomePage;
 	loader: any;
@@ -49,7 +48,6 @@ export class MyApp {
 	activePage: any;
 	public upcomingAgendaItems: any[] = [];
 	public DevicePlatform: string;
-
 
 	public appInfo: any;
 	public deployInfo: any;
@@ -61,7 +59,7 @@ export class MyApp {
 	
 	constructor(
 		public pltfrm: Platform,
-	//	public navCtrl: NavController,
+		//public navCtrl: NavController,
 		private statusBar: StatusBar,
 		public loadingCtrl: LoadingController,
 		public storage: Storage,
@@ -80,7 +78,6 @@ export class MyApp {
 
 
 		this.initializeApp();
-
 				
 		// Dynamically set the menu option for Materials based on fly-in type
 		var flyinType = this.localstorage.getLocalValue("FlyinType");
@@ -629,10 +626,6 @@ export class MyApp {
 			this.statusBar.overlaysWebView(false);
 			this.statusBar.backgroundColorByHexString('#1d1e22');
 			this.statusBar.styleLightContent();
-
-
-			//Open side menu at page loading
-			//this.menuCtrl.open();
 			
 			// Set default sync starting point here.  Update this value each time the database
 			// is refreshed or syncs get too big and slow down the app
