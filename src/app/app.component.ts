@@ -118,6 +118,9 @@ export class MyApp {
 			if (LoginType == 'Logged In') {
 				this.ResetLeftMenuOptions();
 				this.LoadDashboard();
+				if (this.staffFlyinsDropdown == true) {
+					this.UpdateFlyinDropdown();
+				}
 			}
 			if (LoginType == 'Logged Out') {
 				this.ResetLeftMenuOptions();

@@ -655,7 +655,7 @@ export class HomePage {
 			// Previously successful sync time
 			var DefaultSyncStart = this.localstorage.getLocalValue('DefaultSyncStart');
 			var LastSync3 = this.localstorage.getLocalValue('LastSync');
-			if (LastSync3 == '' || LastSync3 === null) {
+			if (LastSync3 == '' || LastSync3 === null || LastSync3 == 'null') {
 				LastSync3 = DefaultSyncStart;
 			}
 			var LastSync2 = new Date(LastSync3).toUTCString();

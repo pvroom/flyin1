@@ -281,8 +281,8 @@ export class LoginPage {
 						this.syncprovider.DBSyncUpdateUM2S(LastSync, ThisSync).then(data2 => {
 							
 							console.log('Login: Executed UpdateUM2S Sync: ' + data2);
-							// Update LastSync date for next run
-							this.localstorage.setLocalValue('LastSync', ThisSync);
+							// Update LastUserSync date for next run
+							this.localstorage.setLocalValue('LastUserSync', ThisSync);
 							
 							console.log('Login: Refreshing Upcoming Agenda display');
 							
