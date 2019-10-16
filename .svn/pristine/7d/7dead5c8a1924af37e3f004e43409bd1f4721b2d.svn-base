@@ -92,8 +92,7 @@ export class CongressionalStaffDetailsPage {
             // Do nothing
         } else {
             // Initiate mail program
-            //window.open('mailto:' + EmailAddress + '?subject=Question via Advocacy Edge', '_system', 'location=yes');
-            window.open('mailto:' + EmailAddress, '_system', 'location=yes');
+            window.open('mailto:' + EmailAddress + '?subject=Question via Advocacy Edge','target=_blank');
         }
 
     };

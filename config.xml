@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.convergenceus.flyin.demo" version="4.4.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.convergenceus.flyin.demo" version="4.4.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Advocacy Edge</name>
     <description>A demo app for Fly-in agenda management</description>
     <author email="pvroom@convergence-us.com" href="http://convergence-us.com/">Convergence</author>
@@ -119,7 +119,6 @@
         <variable name="MIN_BACKGROUND_DURATION" value="30" />
     </plugin>
     <plugin name="cordova-plugin-cocoapod-support" spec="~1.6.0" />
-    <plugin name="onesignal-cordova-plugin" spec="~2.4.5" />
     <plugin name="cordova-plugin-call-number" spec="^1.0.1" />
     <plugin name="cordova-sms-plugin" spec="1.0.0" />
     <plugin name="cordova-plugin-dbcopy" spec="2.1.2" />
