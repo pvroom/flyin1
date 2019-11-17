@@ -37,6 +37,33 @@
 
 
 
+
+    .alertCustomCss {
+        color: white; // text color for basic alerts
+        button {
+            color: white !important;
+            background-color: color($colors, secondary, base) !important;
+        }
+        .alert-message {
+            color: white; // text color for confirm alerts
+
+            .alert-title {
+                color:#fff;
+            }
+
+            .alert-sub-title {
+                color:#fff;
+            }
+        }
+        .alert-wrapper {
+            background-color: #2c3e50;
+        }
+      }
+
+
+
+
+
 .full-width-select {
     max-width: 100%!important;
     min-width: 70%!important;
