@@ -71,7 +71,7 @@ export class CongressionalStaffDetailsPage {
 			let alert = this.alertCtrl.create({
 				title: 'Committee Links',
 				subTitle: 'That committee does not have an external website link assigned to it.',
-				cssClass: 'alertStyle',
+				cssClass: 'alertCustomCss',
 				buttons: ['OK']
 			});
 			alert.present();
