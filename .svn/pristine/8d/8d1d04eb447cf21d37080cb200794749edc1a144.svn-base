@@ -710,7 +710,6 @@ export class Database {
 
 				SQLquery = "SELECT DISTINCT m.*, cm.FirstName, cm.LastName, cm.Nickname, cm.Party, cm.State, ";
 				SQLquery = SQLquery + "cm.Address, cm.City, cm.AddressState, cm.Zipcode, cm.imageFilename, ";
-				SQLquery = SQLquery + "lmlt.meetingLocationType, loa.OnlineAppName, ";
 
 				SQLquery = SQLquery + "(SELECT DISTINCT fm.mapX ";
 				SQLquery = SQLquery + "FROM meetings_congressionals mc ";
@@ -773,8 +772,6 @@ export class Database {
 
 				SQLquery = SQLquery + "FROM meetings m ";
 				SQLquery = SQLquery + "INNER JOIN meetings_clients mc ON m.meetingID = mc.meetingID ";
-				SQLquery = SQLquery + "LEFT OUTER JOIN lookup_online_apps loa ON loa.loaID = m.loaID ";
-				SQLquery = SQLquery + "LEFT OUTER JOIN lookup_meeting_location_types lmlt ON lmlt.lmltID = m.lmltID ";
 				SQLquery = SQLquery + "LEFT OUTER JOIN congressional_members cm ON m.congressionalMemberID = cm.congressionalMemberID ";
 				SQLquery = SQLquery + "LEFT OUTER JOIN floorplan_mapping fm ON fm.mappingID = cm.mappingID ";
 				SQLquery = SQLquery + "WHERE m.meetingID = " + EventID + " ";
@@ -1047,14 +1044,7 @@ export class Database {
 										OfficeY: data.rows.item(i).OfficeY,
 										RoomNumber: data.rows.item(i).RoomNumber,
 										Chamber: data.rows.item(i).Chamber,
-										lmltID: data.rows.item(i).lmltID,
-										loaID: data.rows.item(i).loaID,
 										OnlineYN: data.rows.item(i).OnlineYN,
-										OnlineURL: data.rows.item(i).OnlineURL,
-										OnlinePhoneNumber: data.rows.item(i).OnlinePhoneNumber,
-										OnlineMeetingID: data.rows.item(i).OnlineMeetingID,
-										OnlinePinPassword: data.rows.item(i).OnlinePinPassword,
-										OnlineAppName: data.rows.item(i).OnlineAppName,
 										meetingLocationType: data.rows.item(i).meetingLocationType
 									});
 									resolve(DatabaseResponse);
